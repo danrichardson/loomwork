@@ -10,48 +10,164 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
 {toc.length > 0 && (
-  <nav class="toc" aria-label="Table of contents">
-    <p class="toc__title">On this page</p>
-    <ul>
-      {toc.map((heading) => (
-        <li class:list={[`toc__item--${heading.depth}`]}>
-          <a href={`#${heading.slug}`}>{heading.text}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
+  <>
+    {/* ── Mobile: collapsible dropdown ──────────────────── */}
+    <div class="toc-mobile">
+      <button
+        class="toc-mobile__toggle"
+        aria-expanded="false"
+        aria-controls="toc-mobile-list"
+      >
+        <span>On this page</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav id="toc-mobile-list" class="toc-mobile__nav" aria-label="Table of contents">
+        <ul>
+          {toc.map((heading) => (
+            <li class:list={[`toc__item--${heading.depth}`]}>
+              <a href={`#${heading.slug}`}>{heading.text}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    {/* ── Desktop: slim sticky sidebar ──────────────────── */}
+    <nav class="toc-desktop" aria-label="Table of contents">
+      <p class="toc__title">On this page</p>
+      <ul>
+        {toc.map((heading) => (
+          <li class:list={[`toc__item--${heading.depth}`]}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </>
 )}
 
 <style>
-  .toc {
-    font-size: var(--text-sm);
-  }
-
+  /* ── Shared ──────────────────────────────────────────── */
   .toc__title {
     font-weight: 700;
     margin-block-end: var(--space-sm);
     color: var(--color-text);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
   }
 
-  .toc ul {
+  ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .toc li {
-    margin-block-end: var(--space-xs);
+  li {
+    margin-block-end: 2px;
   }
 
-  .toc a {
+  a {
     color: var(--color-text-muted);
     text-decoration: none;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    display: block;
+    padding: 2px 0;
     transition: color var(--transition);
   }
-  .toc a:hover { color: var(--color-accent); }
+  a:hover {
+    color: var(--color-accent);
+  }
 
-  .toc__item--3 { padding-inline-start: var(--space-md); }
+  .toc__item--3 {
+    padding-inline-start: var(--space-md);
+  }
+
+  /* ── Mobile TOC ─────────────────────────────────────── */
+  .toc-mobile {
+    display: block;
+    margin-block-end: var(--space-lg);
+  }
+
+  .toc-mobile__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .toc-mobile__toggle svg {
+    transition: transform var(--transition);
+  }
+
+  .toc-mobile__toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .toc-mobile__nav {
+    display: none;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-block-start: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    background: var(--color-surface);
+  }
+
+  .toc-mobile__nav.is-open {
+    display: block;
+  }
+
+  @media (min-width: 960px) {
+    .toc-mobile {
+      display: none;
+    }
+  }
+
+  /* ── Desktop TOC ────────────────────────────────────── */
+  .toc-desktop {
+    display: none;
+    font-size: var(--text-sm);
+  }
+
+  @media (min-width: 960px) {
+    .toc-desktop {
+      display: block;
+    }
+  }
 </style>
+
+<script>
+  // Mobile TOC toggle
+  const toggle = document.querySelector('.toc-mobile__toggle');
+  const nav = document.querySelector('.toc-mobile__nav');
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('is-open');
+    });
+
+    // Close mobile TOC when a link is clicked
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      });
+    });
+  }
+</script>

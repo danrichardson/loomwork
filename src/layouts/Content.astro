@@ -26,9 +26,12 @@ const isGuide = template === "guide";
 const isLanding = template === "landing";
 const isTool = template === "tool";
 
+/* Guides use a wider container to fit the slim sidebar + full content width */
 const containerClass = isLanding || isTool
   ? "container container--wide"
-  : "container";
+  : isGuide && headings.length > 0
+    ? "container container--guide"
+    : "container";
 ---
 
 <Base title={title} description={description}>
@@ -94,6 +97,14 @@ const containerClass = isLanding || isTool
     margin-block-end: var(--space-xl);
   }
 
+  /* ── Guide container: content-width + sidebar room ───── */
+  :global(.container--guide) {
+    max-width: calc(var(--content-width) + 13rem);
+    margin-inline: auto;
+    padding-inline: var(--space-lg);
+  }
+
+  /* ── Grid: single column mobile, sidebar + content desktop */
   .page__grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -102,14 +113,25 @@ const containerClass = isLanding || isTool
 
   @media (min-width: 960px) {
     .page__grid {
-      grid-template-columns: 14rem 1fr;
+      grid-template-columns: 11rem 1fr;
+      gap: var(--space-xl);
     }
   }
 
+  /* ── Sidebar: hidden on mobile, sticky on desktop ────── */
   .page__sidebar {
-    position: sticky;
-    top: var(--space-lg);
-    align-self: start;
+    display: none;
+  }
+
+  @media (min-width: 960px) {
+    .page__sidebar {
+      display: block;
+      position: sticky;
+      top: var(--space-xl);
+      align-self: start;
+      max-height: calc(100vh - var(--space-2xl));
+      overflow-y: auto;
+    }
   }
 
   .page__content {
