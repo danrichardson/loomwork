@@ -19,7 +19,7 @@ export const SITE = {
 
   // ── Navigation ──────────────────────────────────────────
   nav: [
-    { label: "About", href: "/about" },
+    { label: "About", href: "/about_Loomwork" },
     { label: "Deploy Guide", href: "/guide" },
   ],
 
