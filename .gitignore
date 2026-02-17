@@ -19,3 +19,6 @@ Thumbs.db
 
 # Cloudflare
 .wrangler/
+
+# site dependent config
+src/site.config.ts
