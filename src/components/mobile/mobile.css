@@ -21,6 +21,13 @@
   --m-space-xl: 2rem;
   --m-header-h: 3.5rem;
   --m-nav-h: 3.25rem;
+  --m-safe-top: env(safe-area-inset-top, 0px);
+}
+
+@supports (padding-top: constant(safe-area-inset-top)) {
+  .mobile-app {
+    --m-safe-top: constant(safe-area-inset-top);
+  }
 }
 
 /* ── App shell ─────────────────────────────── */
@@ -34,11 +41,11 @@
 
 /* ── Header ────────────────────────────────── */
 .m-header {
-  height: var(--m-header-h);
+  min-height: calc(var(--m-header-h) + var(--m-safe-top));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--m-space-md);
+  padding: var(--m-safe-top) var(--m-space-md) 0;
   background: var(--m-surface);
   border-bottom: 1px solid var(--m-border);
   flex-shrink: 0;
