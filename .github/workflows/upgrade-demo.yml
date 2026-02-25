@@ -45,5 +45,12 @@ jobs:
             - If DRY_RUN is true, stop after the build succeeds and report what would be pushed.
             - If DRY_RUN is false, push and report the commit SHA.
           claude_args: |
-            --max-turns 25
+            --max-turns 40
             --allowedTools Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool
+
+      - name: Upload Claude execution log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-execution-log
+          path: /home/runner/work/_temp/claude-execution-output.json
