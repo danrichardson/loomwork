@@ -1,0 +1,79 @@
+name: Rebuild Verification Site
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_destroy:
+        description: "Type REBUILD to confirm destroying verification.loomwork.org"
+        type: string
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: inputs.confirm_destroy == 'REBUILD'
+    steps:
+      - name: Safety check
+        run: |
+          echo "✅ Confirmation received: destroying and rebuilding verification.loomwork.org"
+          echo "This will force-push a brand new Coastal Kitchen site."
+
+      - name: Checkout verification site repo
+        uses: actions/checkout@v4
+        with:
+          repository: danrichardson/verification.loomwork.org
+          token: ${{ secrets.LOOMWORK_PAT }}
+          fetch-depth: 0
+
+      - name: Wipe existing content
+        run: |
+          # Save .git directory, nuke everything else
+          mv .git /tmp/.git-backup
+          rm -rf *
+          rm -rf .[!.]*
+          mv /tmp/.git-backup .git
+          echo "Workspace wiped clean."
+
+      - name: Fetch verification prompt from framework repo
+        run: |
+          curl -sL https://raw.githubusercontent.com/danrichardson/loomwork/refs/heads/main/VERIFICATION_AGENT_PROMPT.md \
+            -o /tmp/VERIFICATION_AGENT_PROMPT.md
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Read the file /tmp/VERIFICATION_AGENT_PROMPT.md and follow its instructions exactly,
+            with these adjustments for CI context:
+
+            - You are already in an empty working directory that is a git repo for verification.loomwork.org.
+            - Instead of cloning into a new directory, clone the loomwork repo contents INTO this directory:
+              git remote add loomwork https://github.com/danrichardson/loomwork.git
+              git fetch loomwork
+              git checkout loomwork/main -- .
+              Then run npm install and proceed with the rest of the prompt.
+            - Do NOT remove the origin remote - it points to the verification.loomwork.org repo.
+            - After completing all steps and the build passes, commit everything and run:
+              git push origin main --force
+            - The --force is expected since we wiped the history.
+            - At the end, provide your PASS/FAIL report as the prompt instructs.
+          claude_args: |
+            --max-turns 50
+            --allowedTools Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool
+
+      - name: Report
+        if: always()
+        run: |
+          echo "## Verification Complete" >> $GITHUB_STEP_SUMMARY
+          echo "Check the Claude Code step above for the PASS/FAIL report." >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,47 @@
+name: Upgrade Demo Site
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run - merge and build but don't push"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout demo site
+        uses: actions/checkout@v4
+        with:
+          repository: danrichardson/demo.loomwork.org
+          token: ${{ secrets.LOOMWORK_PAT }}
+          fetch-depth: 0
+
+      - name: Fetch upgrade prompt from framework repo
+        run: |
+          curl -sL https://raw.githubusercontent.com/danrichardson/loomwork/refs/heads/main/UPGRADE-PROMPT.md \
+            -o /tmp/UPGRADE-PROMPT.md
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Read the file /tmp/UPGRADE-PROMPT.md and follow its instructions exactly.
+
+            Important context:
+            - You are in the demo.loomwork.org site repo, already checked out.
+            - The loomwork remote should point to https://github.com/danrichardson/loomwork.git
+            - DRY_RUN=${{ inputs.dry_run }} - if true, do everything EXCEPT the final git push.
+            - If DRY_RUN is true, stop after the build succeeds and report what would be pushed.
+            - If DRY_RUN is false, push and report the commit SHA.
+          claude_args: |
+            --max-turns 25
+            --allowedTools Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool
