@@ -11,6 +11,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   upgrade:
@@ -33,6 +34,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.LOOMWORK_PAT }}
           prompt: |
             Read the file /tmp/UPGRADE-PROMPT.md and follow its instructions exactly.
 
