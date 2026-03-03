@@ -10,7 +10,7 @@
  */
 ---
 
-<div class="rc" id="reader-controls" data-reader-controls>
+<div class="rc" id="lw-reader-controls" data-reader-controls>
   {/* ── Toggle button ──────────────────────────────────── */}
   <button
     class="rc__toggle"
@@ -340,7 +340,7 @@
   (function() {
     const LS_KEY = "lw-reader";
     const root = document.documentElement;
-    const container = document.getElementById("reader-controls");
+    const container = document.getElementById("lw-reader-controls");
     if (!container || container.hasAttribute("data-rc-init")) return;
     container.setAttribute("data-rc-init", "");
 
@@ -475,7 +475,7 @@
 
     // Close panel when clicking outside (queries DOM fresh to survive HMR)
     document.addEventListener("click", (e) => {
-      const rc = document.getElementById("reader-controls");
+      const rc = document.getElementById("lw-reader-controls");
       if (!rc) return;
       const pnl = rc.querySelector(".rc__panel") as HTMLElement | null;
       const btn = rc.querySelector(".rc__toggle") as HTMLElement | null;
