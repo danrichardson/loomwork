@@ -341,7 +341,8 @@
     const LS_KEY = "lw-reader";
     const root = document.documentElement;
     const container = document.getElementById("reader-controls");
-    if (!container) return;
+    if (!container || container.hasAttribute("data-rc-init")) return;
+    container.setAttribute("data-rc-init", "");
 
     const toggleBtn = container.querySelector(".rc__toggle") as HTMLButtonElement;
     const panel = container.querySelector(".rc__panel") as HTMLElement;
@@ -464,17 +465,24 @@
     applyAll(prefs);
 
     // ── Toggle panel ──────────────────────────────────
-    toggleBtn?.addEventListener("click", () => {
-      const open = panel.hidden;
-      panel.hidden = !open;
-      toggleBtn.setAttribute("aria-expanded", String(open));
-    });
+    if (toggleBtn && panel) {
+      toggleBtn.addEventListener("click", () => {
+        const open = panel.hidden;
+        panel.hidden = !open;
+        toggleBtn.setAttribute("aria-expanded", String(open));
+      });
+    }
 
-    // Close panel when clicking outside
+    // Close panel when clicking outside (queries DOM fresh to survive HMR)
     document.addEventListener("click", (e) => {
-      if (!container.contains(e.target as Node) && !panel.hidden) {
-        panel.hidden = true;
-        toggleBtn.setAttribute("aria-expanded", "false");
+      const rc = document.getElementById("reader-controls");
+      if (!rc) return;
+      const pnl = rc.querySelector(".rc__panel") as HTMLElement | null;
+      const btn = rc.querySelector(".rc__toggle") as HTMLElement | null;
+      if (!pnl || pnl.hidden) return;
+      if (!rc.contains(e.target as Node)) {
+        pnl.hidden = true;
+        btn?.setAttribute("aria-expanded", "false");
       }
     });
 

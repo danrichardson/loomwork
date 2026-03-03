@@ -2,6 +2,11 @@
 import { SITE } from "../site.config";
 
 const currentPath = Astro.url.pathname;
+
+// Build nav array — auto-prepend Home unless disabled
+const navItems = SITE.nav_home !== false
+  ? [{ label: "Home", href: "/" }, ...SITE.nav]
+  : SITE.nav;
 ---
 
 <header class="site-header">
@@ -25,13 +30,17 @@ const currentPath = Astro.url.pathname;
 
     <nav class="site-header__nav" data-nav-menu>
       <ul>
-        {SITE.nav.map((item) => (
+        {navItems.map((item) => (
           <li>
             <a
               href={item.href}
               class:list={[
                 "site-header__link",
-                { active: currentPath.startsWith(item.href) },
+                {
+                  active: item.href === "/"
+                    ? currentPath === "/"
+                    : currentPath.startsWith(item.href),
+                },
               ]}
             >
               {item.label}

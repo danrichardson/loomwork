@@ -18,11 +18,16 @@ export const SITE = {
   email: "",
 
   // ── Navigation ──────────────────────────────────────────
+  // "Home" is automatically prepended. Set nav_home: false to remove it.
+  nav_home: true,
+
   // Update these to match your content pages:
   nav: [
     { label: "About", href: "/about_Loomwork" },
-    { label: "Deploy Guide", href: "/guide" },
-    { label: "Mobile App", href: "/mobile-app" },
+    { label: "Building", href: "/building" },
+    { label: "Theming", href: "/theming" },
+    { label: "Controls", href: "/reader-controls" },
+    { label: "Deploy", href: "/guide" },
   ],
 
   // ── Fonts ───────────────────────────────────────────────
