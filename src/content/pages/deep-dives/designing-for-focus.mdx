@@ -1,0 +1,54 @@
+---
+title: "Designing for Focus"
+description: "Why the longform layout is viewport-fitted and how it changes the reading experience."
+section: "deep-dives"
+nav_title: "Designing for Focus"
+nav_order: 20
+template: "longform"
+date_created: 2026-03-03
+date_updated: 2026-03-03
+---
+
+## The Problem with Infinite Scroll
+
+Most blog layouts dump content into an infinitely tall page. The browser scrollbar is your only progress indicator, and the header/footer scroll away. You lose context about where you are and what else is available.
+
+The longform template takes a different approach: **the layout is the viewport**. The content scrolls within a container, not the page itself. The article index stays visible. The browser chrome stays stable.
+
+## Viewport-Fitted Design
+
+On desktop, the longform layout occupies `100vh` minus the site header. The sidebar and content panel each get their own scroll context. This means:
+
+- The article index is always reachable — no scrolling to the top
+- The reading progress feels contained and manageable
+- Switching articles is a click, not a back-button journey
+
+On mobile, the layout reverts to a single column since split panels don't work at narrow widths. The article index becomes a collapsible dropdown above the content.
+
+## The 80% Width Rule
+
+The content panel deliberately takes up most of the available width. Longform content — essays, retrospectives, analysis — benefits from wide lines and generous whitespace. This isn't a narrow blog column; it's closer to a keynote slide in terms of how much horizontal space the text gets.
+
+The `--wide-width` variable (72rem by default) controls the maximum, but the content will fill whatever space the sidebar leaves behind.
+
+## Typography Matters
+
+Because longform articles are meant to be read start-to-finish, the typographic defaults emphasize readability:
+
+- The base font size is slightly larger than guide pages
+- Line height is generous (`1.7`)
+- Headings use tighter letter-spacing for visual weight
+- The content panel has extra inline padding on desktop for breathing room
+
+All of this is controlled by CSS variables, so themes can adjust the feel without changing the layout structure.
+
+## A Presentation Metaphor
+
+The original idea was "PowerPoint meets blog." Not literally — no slide transitions or bullet animations — but the feeling of each article being a **self-contained presentation** that you can navigate between. The sidebar is your slide deck's outline. The content panel is the current slide, expanded to fill the space.
+
+This metaphor works well for:
+
+- Conference talk write-ups
+- Project post-mortems with multiple chapters
+- Course material broken into lessons
+- Design decision logs

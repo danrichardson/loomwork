@@ -30,7 +30,7 @@ const pages = defineCollection({
     hero_image: z.string().optional(),
     hero_alt: z.string().optional(),
     template: z
-      .enum(["default", "landing", "guide", "tool"])
+      .enum(["default", "landing", "guide", "tool", "longform"])
       .default("default"),
 
     // Metadata

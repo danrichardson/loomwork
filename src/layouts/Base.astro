@@ -57,13 +57,16 @@ const fontsUrl = SITE.fonts_url || themeEntry?.fonts_url || "";
     <meta property="og:url" content={canonicalURL} />
     {og_image && <meta property="og:image" content={new URL(og_image, SITE.url)} />}
 
-    <!-- Fonts: loaded from theme or manual fonts_url -->
+    <!-- Fonts: resolved by inline script below to prevent FOUC -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link id="lw-fonts" href={fontsUrl || undefined} rel="stylesheet" />
+    <link id="lw-fonts" rel="stylesheet" />
 
-    <!-- Theme CSS (loaded after global.css, before site.css in cascade) -->
-    <link id="lw-theme" rel="stylesheet" href={themeEntry ? `/themes/${themeName}.css` : undefined} />
+    <!-- Theme CSS (resolved by inline script below to prevent FOUC) -->
+    <link id="lw-theme" rel="stylesheet" />
+    <!-- Defaults for the inline script to use as fallback -->
+    <meta id="lw-default-theme" content={themeName || ""} />
+    <meta id="lw-default-fonts" content={fontsUrl || ""} />
 
     <!-- Theme registry for client-side picker -->
     {showReaderControls && (
@@ -92,30 +95,38 @@ const fontsUrl = SITE.fonts_url || themeEntry?.fonts_url || "";
           else if (p.toc === "numbered") d.setAttribute("data-toc", "numbered");
           if (p.width && p.width !== "default") d.setAttribute("data-width", p.width);
           if (p.zen === "true") d.setAttribute("data-zen", "");
-          // Swap theme CSS + fonts before paint if user picked a different theme
-          if (p.theme) {
+          // Resolve theme: user preference wins, then site default
+          var defaultTheme = (document.getElementById("lw-default-theme") || {}).content || "";
+          var theme = p.theme || defaultTheme;
+          if (theme) {
             var tl = document.getElementById("lw-theme");
-            if (tl) tl.setAttribute("href", "/themes/" + p.theme + ".css");
+            if (tl) tl.setAttribute("href", "/themes/" + theme + ".css");
+          }
+          // Resolve fonts: user's theme fonts, else site default fonts
+          var defaultFonts = (document.getElementById("lw-default-fonts") || {}).content || "";
+          var fontsUrl = defaultFonts;
+          if (p.theme) {
             try {
               var m = JSON.parse(document.getElementById("lw-theme-map").textContent);
               var t = m && m.themes && m.themes[p.theme];
-              if (t && t.fonts_url) {
-                var fl = document.getElementById("lw-fonts");
-                if (fl) fl.setAttribute("href", t.fonts_url);
-              }
+              if (t && t.fonts_url) fontsUrl = t.fonts_url;
             } catch(e2) {}
+          }
+          if (fontsUrl) {
+            var fl = document.getElementById("lw-fonts");
+            if (fl) fl.setAttribute("href", fontsUrl);
           }
         } catch(e) {}
       })();
     </script>
   </head>
 
-  <body>
+  <body class:list={[className ? `body--${className}` : ""]}>
     <Header />
     <main class={className}>
       <slot />
     </main>
-    <Footer />
+    {className !== "longform" && <Footer />}
     {showReaderControls && <ReadingEnhancements />}
     {showReaderControls && <ReaderControls />}
   </body>

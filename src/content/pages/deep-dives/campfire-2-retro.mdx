@@ -1,0 +1,78 @@
+---
+title: "Lessons from Campfire 2"
+description: "A retrospective on the Campfire 2 project — what failed, what we learned, and why the time was well spent."
+section: "deep-dives"
+nav_title: "Campfire 2 Retro"
+nav_order: 30
+template: "longform"
+date_created: 2026-03-03
+date_updated: 2026-03-03
+---
+
+import Callout from '../../../components/Callout.astro';
+
+## Context
+
+Campfire 2 was the second attempt at building a theme system for Loomwork. The first version (Campfire 1) worked — it shipped — but it was brittle. Theme CSS files had to duplicate variables, the dark mode interaction was fragile, and adding a new theme meant copy-pasting 200 lines of CSS and hoping you didn't miss a variable.
+
+Campfire 2 was supposed to fix all of that. It didn't ship. But the work that went into it directly informed the theme architecture that Loomwork uses today.
+
+<Callout>
+This is a sample retrospective to demonstrate the longform template. The project details are illustrative — the format is what matters.
+</Callout>
+
+## What We Tried
+
+The core idea of Campfire 2 was **theme inheritance**. Instead of each theme defining every variable, themes would extend a base set of defaults and only override what they needed. The implementation used CSS custom property fallbacks chained three levels deep:
+
+```css
+:root {
+  --color-bg: var(--theme-bg, var(--base-bg, #fafaf9));
+}
+```
+
+This looked elegant on paper. A theme only needed to set `--theme-bg` and everything downstream would pick it up.
+
+## Where It Broke
+
+### Specificity Wars
+
+The three-level fallback chain interacted badly with dark mode, which also needed to override variables. We ended up with:
+
+```css
+[data-dark="true"] {
+  --color-bg: var(--theme-dark-bg, var(--base-dark-bg, #1c1917));
+}
+```
+
+Four levels of indirection. When a theme author needed to debug why their background color wasn't applying, they had to trace through base defaults → theme overrides → dark mode base → dark mode theme. It was a mess.
+
+### Build Complexity
+
+The inheritance system required a build step to validate that themes provided the right variables. We wrote a PostCSS plugin for this, which added tooling complexity and made the "just edit CSS" promise ring hollow.
+
+### Cognitive Load
+
+For theme authors, the mental model of "set these ten variables and inherit the rest" sounds simple. In practice, the cascade meant that small changes had unpredictable downstream effects. Changing `--theme-accent` might affect buttons, links, code blocks, and borders in ways that weren't obvious without rendering every page.
+
+## What We Learned
+
+### 1. Explicit is better than inherited
+
+The current theme system uses `:where(:root)` for base defaults (specificity 0,0,0) and plain `:root` in theme files. No inheritance chain. Every theme sets every variable it cares about, and the defaults are genuinely defaults — not a complex fallback ladder.
+
+### 2. The theme file should be self-contained
+
+A theme author should be able to open one CSS file, see every variable, and understand the full picture. The Campfire 2 approach made themes *smaller* (fewer lines) but *harder to understand* (implicit inheritance).
+
+### 3. Dark mode is a theme concern, not a framework concern
+
+In the current system, each theme defines its own dark mode overrides within its CSS file. The framework provides the toggle and the `[data-dark]` attribute. This means themes have full control over their dark palette without fighting a base layer.
+
+### 4. Time spent on failed approaches is not wasted
+
+Campfire 2 took about two weeks of focused work. None of that code shipped. But the clarity it brought to the design of the current system probably saved a month of iteration. Sometimes you have to build the wrong thing to understand the right thing.
+
+## The Takeaway
+
+If you're building a theme system — or any system with layers of configuration — start with the dumbest, most explicit approach first. Add abstraction only when the pain of repetition is real and measured, not theoretical. Campfire 2 was a solution to a problem we imagined was worse than it actually was.

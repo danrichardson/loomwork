@@ -1,0 +1,55 @@
+---
+title: "What Is the Longform Template?"
+description: "An introduction to Loomwork's longform page type — the split-panel layout for deep dives and essays."
+section: "deep-dives"
+nav_title: "What Is Longform?"
+nav_order: 10
+template: "longform"
+date_created: 2026-03-03
+date_updated: 2026-03-03
+---
+
+import Callout from '../../../components/Callout.astro';
+
+## The Idea
+
+Some content doesn't fit neatly into a docs page or a blog post. Retrospectives, design explorations, project journals — these are pieces that benefit from a focused, immersive reading experience.
+
+The **longform** template gives you that. It creates a viewport-fitted split-panel layout:
+
+- **Left:** A persistent sidebar listing all articles in the series
+- **Right:** The content itself, wide and scrollable
+
+Think of it as a digital magazine layout — you pick an article from the index, and the content fills your screen.
+
+## How It Works
+
+Set `template: "longform"` and give the page a `section` value. Every longform page with the same section appears together in the sidebar index.
+
+```yaml
+---
+template: "longform"
+section: "deep-dives"
+nav_order: 10
+---
+```
+
+The `nav_order` field controls the sort order. Lower numbers appear first.
+
+<Callout>
+You're reading this in the longform template right now. Notice the article index on the left (desktop) or the collapsible menu above (mobile).
+</Callout>
+
+## When To Use It
+
+Use longform when you want readers to:
+
+- Stay focused on one piece of content at a time
+- Navigate between related articles without leaving the experience
+- Read something that's more like an essay than a reference page
+
+It's not a replacement for docs (use `guide`) or marketing pages (use `landing`). It's a third mode — **lean back and read**.
+
+## What's Next
+
+Check out the other articles in this section to see how serialized longform content feels in practice.

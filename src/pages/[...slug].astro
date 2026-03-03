@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Content from "../layouts/Content.astro";
+import Longform from "../layouts/Longform.astro";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // STATIC PATHS
@@ -25,17 +26,35 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const { Content: RenderedContent, headings } = await page.render();
+const isLongform = page.data.template === "longform";
+const slug = page.id.replace(/\.mdx?$/, "");
 ---
 
-<Content
-  title={page.data.title}
-  description={page.data.description}
-  template={page.data.template}
-  hero_image={page.data.hero_image}
-  hero_alt={page.data.hero_alt}
-  date_updated={page.data.date_updated}
-  headings={headings}
-  body={page.body}
->
-  <RenderedContent />
-</Content>
+{isLongform ? (
+  <Longform
+    title={page.data.title}
+    description={page.data.description}
+    section={page.data.section}
+    hero_image={page.data.hero_image}
+    hero_alt={page.data.hero_alt}
+    date_updated={page.data.date_updated}
+    headings={headings}
+    body={page.body}
+    currentSlug={slug}
+  >
+    <RenderedContent />
+  </Longform>
+) : (
+  <Content
+    title={page.data.title}
+    description={page.data.description}
+    template={page.data.template}
+    hero_image={page.data.hero_image}
+    hero_alt={page.data.hero_alt}
+    date_updated={page.data.date_updated}
+    headings={headings}
+    body={page.body}
+  >
+    <RenderedContent />
+  </Content>
+)}
