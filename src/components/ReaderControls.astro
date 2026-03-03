@@ -430,8 +430,10 @@
 
     // ── Sync UI state to match prefs ──────────────────
     function syncUI(prefs: Record<string, string>) {
-      // Mode pill
-      const isDark = prefs.dark === "true";
+      // Mode pill — reflect actual visual state (explicit pref or OS)
+      const isDark =
+        prefs.dark === "true" ||
+        (prefs.dark !== "false" && window.matchMedia("(prefers-color-scheme: dark)").matches);
       modeBtn?.classList.toggle("rc__pill--active", isDark);
       if (modeLbl) modeLbl.textContent = isDark ? "Dark" : "Light";
 
@@ -490,7 +492,11 @@
 
     // ── Mode toggle ───────────────────────────────────
     modeBtn?.addEventListener("click", () => {
-      prefs.dark = prefs.dark === "true" ? "false" : "true";
+      // Determine the current visual state: explicit pref, or OS preference
+      const currentlyDark =
+        prefs.dark === "true" ||
+        (prefs.dark !== "false" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      prefs.dark = currentlyDark ? "false" : "true";
       savePrefs(prefs);
       applyAll(prefs);
     });
