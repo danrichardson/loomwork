@@ -9,217 +9,139 @@ GitHub Action, and can be given to any coding agent working in a site repo.
 ## Prompt
 
 Your task is to upgrade this site to the latest version of the loomwork
-framework. This is a major upgrade — the framework now includes a theme system,
-reader controls panel, and new page templates. Follow these steps exactly.
+framework. Follow these steps exactly — do not skip steps or improvise.
 
 ### Phase 1: Merge Framework Code
 
-#### 1. Verify the loomwork remote is configured
+#### 1. Add the loomwork remote if missing
 
 ```bash
-git remote -v
-```
-
-You should see a `loomwork` remote pointing to
-`https://github.com/danrichardson/loomwork.git`. If it is missing, add it:
-
-```bash
-git remote add loomwork https://github.com/danrichardson/loomwork.git
-```
-
-#### 2. Fetch and merge the latest loomwork
-
-```bash
+git remote get-url loomwork 2>/dev/null || git remote add loomwork https://github.com/danrichardson/loomwork.git
 git fetch loomwork
-git merge loomwork/main
 ```
 
-#### 3. Resolve any conflicts
-
-Conflicts will fall into one of three categories. Handle each differently:
-
-**Pure site files (always keep yours — HEAD side):**
-- `README.md`
-- `src/site.config.ts`
-- `src/styles/site.css`
-- `src/pages/index.astro`
-- `src/content/pages/*.mdx`
-- `astro.config.mjs`
-- `wrangler.toml`
-
-**Framework files (should auto-merge cleanly — if they conflict, accept
-loomwork's version):**
-- `src/layouts/`
-- `src/components/`
-- `src/styles/global.css`
-- `src/styles/themes.css`
-- `src/content.config.ts`
-- `src/themes/`
-- `src/pages/[...slug].astro`
-- `src/pages/404.astro`
-- `src/pages/mobile/`
-- `public/_headers`
-- `public/_redirects`
-- `public/.assetsignore`
-- `public/themes/`
-- `public/mobile/`
-
-**Dependency files (special handling):**
-- `package.json` — If conflicted, accept the **incoming loomwork version** so
-  new framework dependencies are included, then verify your project `name` and
-  `description` fields are still correct. If loomwork added dependencies your
-  site also added, both will be present after merge.
-- `package-lock.json` — **Always delete and regenerate.** Do not try to merge
-  this file manually:
+#### 2. Merge loomwork/main
 
 ```bash
-git checkout --theirs package.json   # take framework deps
-# Then verify and fix name/description if needed
-rm package-lock.json
+git merge loomwork/main --no-edit || true
 ```
 
-After resolving all conflicts:
+If there are no conflicts, skip to step 4.
+
+#### 3. Resolve conflicts
+
+Check for conflicts:
 
 ```bash
-git add .
+git diff --name-only --diff-filter=U
 ```
 
-If the merge was interrupted, complete it:
+Resolve each conflicted file using these rules (run the commands directly —
+do not read or manually edit conflicted files):
 
+**Site files — keep ours:**
 ```bash
-git merge --continue
+for f in README.md src/site.config.ts src/styles/site.css src/pages/index.astro astro.config.mjs wrangler.toml; do
+  git checkout --ours "$f" 2>/dev/null && git add "$f" 2>/dev/null
+done
+```
+
+**Framework files — take theirs:**
+```bash
+for f in src/layouts/Base.astro src/layouts/Content.astro src/layouts/Longform.astro src/components/Header.astro src/components/Footer.astro src/components/Callout.astro src/components/TableOfContents.astro src/components/YouTube.astro src/components/DemoControl.astro src/components/ThemePicker.astro src/components/ReaderControls.astro src/components/ReadingEnhancements.astro src/content.config.ts src/styles/global.css src/styles/themes.css src/themes/_index.ts "src/pages/[...slug].astro" src/pages/404.astro src/pages/mobile/index.astro; do
+  git checkout --theirs "$f" 2>/dev/null && git add "$f" 2>/dev/null
+done
+```
+
+**Dependencies — take theirs, fix name:**
+```bash
+git checkout --theirs package.json 2>/dev/null && git add package.json
+git checkout --theirs package-lock.json 2>/dev/null && git add package-lock.json
+```
+
+**Docs — take theirs:**
+```bash
+git checkout --theirs docs/ 2>/dev/null && git add docs/ 2>/dev/null
+```
+
+After resolving all conflicts, check none remain:
+```bash
+git diff --name-only --diff-filter=U
+```
+
+If any remain, resolve them by accepting theirs:
+```bash
+git diff --name-only --diff-filter=U | xargs -I{} sh -c 'git checkout --theirs "{}" && git add "{}"'
+```
+
+Complete the merge:
+```bash
+git commit --no-edit || true
 ```
 
 #### 4. Install dependencies
 
-This is required after every merge — framework updates may add, remove, or
-upgrade npm packages:
-
 ```bash
+rm -f package-lock.json
 npm install
 ```
 
-This also regenerates `package-lock.json` if you deleted it in step 3.
-
-#### 5. Check for CSS variable changes
-
-If the merge updated `src/styles/global.css`, check whether any CSS custom
-property names you reference in `src/styles/site.css` were renamed or removed:
-
-```bash
-git diff HEAD~1 HEAD -- src/styles/global.css | grep "^[-+].*--"
-```
-
-If this shows renamed variables, update `site.css` to match.
-
-#### 6. Build and verify the merge
+#### 5. Build to verify the merge
 
 ```bash
 npm run build
 ```
 
-The build must complete with no errors before proceeding. Warnings about sharp
-or KV bindings are expected and can be ignored.
-
-Confirm:
-- Your content pages still appear in the build output
-- The homepage renders (`dist/index.html`)
-- The mobile editor renders (`dist/mobile/index.html`)
+The build must succeed. Warnings about sharp, KV bindings, or empty post
+directories are expected — ignore them. If the build fails, read the error
+and fix it before continuing.
 
 ### Phase 2: Adopt 2.0 Features
 
-The framework now includes a theme system with 10 built-in themes, a floating
-reader controls panel, and a longform page template. Update site files to use
-these features.
+#### 6. Enable theme and reader controls in site.config.ts
 
-#### 7. Enable a theme in site.config.ts
-
-Open `src/site.config.ts` and add/update these fields:
+Read `src/site.config.ts`. Add or update these two fields inside the SITE
+object (keep all existing fields — only add/change these):
 
 ```typescript
-theme: "campfire",      // or any built-in theme (see list below)
-reader_controls: true,  // floating gear panel: dark mode, font size, TOC, width, focus
+theme: "campfire",
+reader_controls: true,
 ```
 
-Available themes: `manuscript`, `brutalist`, `atelier`, `terminal`, `gazette`,
-`alpine`, `campfire`, `moonrise`, `fieldnotes`, `neon`.
-
-Choose a theme that fits the site's identity. Each theme provides a complete
-color palette, font stack, and dark mode — no manual CSS needed.
-
-#### 8. Clean up site.css
-
-Now that a theme handles colors and fonts, remove any manually-defined color
-palette or font-family declarations from `src/styles/site.css`. The theme CSS
-provides all of these.
-
-**Remove** (or comment out): any `:root` block that sets `--color-*` variables
-or `--font-*` variables, since the theme provides these.
-
-**Keep**: any site-specific CSS that is NOT color/font related (custom layout
-rules, component overrides, etc.). If you have accent color overrides specific
-to the site identity, you can keep a small `:root` block with just
-`--color-accent` and `--color-accent-hover` to tweak the theme's palette. But
-do not redefine the full color/font system — that's the theme's job.
-
-The goal: `site.css` should be small (under ~30 lines of variable overrides
-at most).
-
-#### 9. Update fonts_url
-
-Since the theme loads its own Google Fonts automatically, clear the manual
-`fonts_url` in `site.config.ts`:
-
+Also set `fonts_url` to empty string so the theme controls fonts:
 ```typescript
-fonts_url: "",  // theme loads its own fonts
+fonts_url: "",
 ```
 
-If the theme's fonts are not a good fit and you want to override them, you can
-set `fonts_url` to a Google Fonts URL and override `--font-body` /
-`--font-heading` in `site.css`. But try the theme's defaults first.
+If `fonts_url` does not exist in the file, skip this — the theme will
+use its own fonts by default.
 
-#### 10. Verify homepage uses CSS variables (not hardcoded colors)
+#### 7. Clean up site.css
 
-Open `src/pages/index.astro` and check for any hardcoded hex colors (e.g.,
-`#2d6a4f`, `#f5f5f0`). Replace them with CSS variable references:
-- Background colors → `var(--color-bg)`, `var(--color-bg-alt)`, `var(--color-surface)`
-- Text colors → `var(--color-text)`, `var(--color-text-muted)`
-- Accent colors → `var(--color-accent)`, `var(--color-accent-hover)`, `var(--color-accent-light)`
-- Border colors → `var(--color-border)`
+Read `src/styles/site.css`. Remove any `:root` block that defines `--color-*`
+or `--font-*` variables (the theme provides these now). Keep everything else
+(component styles, layout rules, animations). If the file has accent color
+overrides (`--color-accent`, `--color-accent-hover`), keep those in a small
+`:root` block. The result should have at most ~30 lines of variable overrides.
 
-This ensures the homepage respects theme changes and dark mode. If the homepage
-already uses only CSS variables, no changes needed.
+If site.css references custom variables like `--ink`, `--warm-cream`, etc.
+that are NOT loomwork standard variables, replace them:
+- `--ink` → `--color-text`
+- `--ink-muted` → `--color-text-muted`
+- `--warm-cream` → `--color-bg`
+- `--stone-50` → `--color-surface`
+- `--stone-100` → `--color-bg-alt`
+- `--stone-200` → `--color-border`
+- `--accent` → `--color-accent`
+- `--accent-light` → `--color-accent-light`
+- `--font-display` → `--font-heading`
 
-#### 11. Add a longform content page
+Also replace any hardcoded hex colors in `src/pages/index.astro` with CSS
+variable references (e.g. `#2d6a4f` → `var(--color-accent)`).
 
-Create one new `.mdx` page using the `longform` template to verify the
-split-panel layout works. This template is new in 2.0 and designed for
-deep-dive articles with a fixed sidebar.
-
-Pick a topic that fits the site's content. For example, on a hiking site you
-might add `src/content/pages/deep-dives/trail-philosophy.mdx`. Write at least
-800 words with 4+ sections and use Callout components. Example frontmatter:
-
-```yaml
----
-title: "Your Deep Dive Title"
-description: "Description for SEO, max 160 chars."
-section: "deep-dives"
-nav_order: 50
-template: "longform"
-date_created: 2026-03-03
----
-```
-
-Add a nav item for this page in `site.config.ts`.
-
-#### 12. Delete loomwork placeholder content that arrived with the merge
-
-The merge may have brought in loomwork's placeholder content pages and docs.
-Delete anything that is not your site content:
+#### 8. Delete loomwork placeholder content
 
 ```bash
-# Delete loomwork placeholder pages if they appeared
 rm -f src/content/pages/about_Loomwork.mdx
 rm -f src/content/pages/guide.mdx
 rm -f src/content/pages/mobile-app.mdx
@@ -227,79 +149,142 @@ rm -f src/content/pages/building.mdx
 rm -f src/content/pages/theming.mdx
 rm -f src/content/pages/page-types.mdx
 rm -f src/content/pages/reader-controls.mdx
-rm -rf src/content/pages/deep-dives/campfire-2-retro.mdx
-rm -rf src/content/pages/deep-dives/designing-for-focus.mdx
-rm -rf src/content/pages/deep-dives/what-is-longform.mdx
-
-# Delete loomwork docs directory if it appeared
-rm -rf docs/
-
-# Delete loomwork-specific images
+rm -f src/content/pages/deep-dives/campfire-2-retro.mdx
+rm -f src/content/pages/deep-dives/designing-for-focus.mdx
+rm -f src/content/pages/deep-dives/what-is-longform.mdx
 rm -f public/images/1771364152056-image.jpg
 ```
 
-Only delete files you did not create. Do not delete your own content pages, images, or docs.
+#### 9. Add a longform demo page
+
+Create `src/content/pages/deep-dives/about-this-site.mdx` with this exact content:
+
+```mdx
+---
+title: "About This Site"
+description: "How this site is built with Astro, Loomwork, and Cloudflare Pages."
+section: "deep-dives"
+nav_order: 50
+template: "longform"
+date_created: 2026-03-03
+---
+
+import Callout from "../../../components/Callout.astro";
+
+## The Stack
+
+This site runs on **Astro** with the **Loomwork** framework — a content-first
+starter built for longform writing, case studies, and portfolio sites. It
+deploys to **Cloudflare Pages** with zero server management.
+
+The design philosophy: write in Markdown, push to GitHub, and let the build
+pipeline handle the rest. No CMS, no database, no runtime dependencies.
+
+<Callout type="info">
+Loomwork is open source. You can fork it and build your own site in about
+ten minutes.
+</Callout>
+
+## Content Architecture
+
+Every page is an `.mdx` file in the `src/content/pages/` directory. Astro's
+Content Collections validate frontmatter at build time — if a title is missing
+or a date is malformed, the build fails immediately instead of shipping broken
+pages to production.
+
+The framework supports four page templates:
+
+- **Default** — standard article layout with prose styling
+- **Guide** — adds a sticky sidebar table of contents
+- **Landing** — wider container for marketing-style pages
+- **Longform** — split-panel layout with a fixed navigation sidebar (this page)
+
+## Theme System
+
+Loomwork ships 10 built-in themes that control colors, typography, spacing, and
+dark mode. Themes are pure CSS files loaded at runtime — switching themes
+requires zero JavaScript framework overhead.
+
+The reader controls panel (the gear icon in the bottom-right corner) lets
+visitors choose their preferred theme, toggle dark mode, adjust font size,
+change content width, and enter focus mode. Preferences persist in
+localStorage across visits.
+
+<Callout type="tip">
+Site owners pick a default theme in `site.config.ts`. Visitors can override
+it using the reader controls, and their choice is remembered.
+</Callout>
+
+## Deployment
+
+The site builds to static HTML and deploys to Cloudflare Pages via GitHub
+Actions. Build times are typically under 5 seconds for sites with fewer
+than 100 pages.
+
+The mobile editor — accessible at `/mobile` — lets you draft and edit
+content from a phone using GitHub's API. It renders live MDX previews
+and commits directly to your repository.
+
+## Why Longform?
+
+This page uses the `longform` template to demonstrate the split-panel layout.
+The sidebar stays fixed while content scrolls, making it easy to navigate long
+articles. On mobile, the sidebar collapses into a compact header.
+
+The longform template is designed for deep-dive content: technical write-ups,
+design explorations, project retrospectives, and essays that benefit from
+structured navigation.
+```
+
+Add a nav item for this page in `src/site.config.ts` by adding to the nav array:
+```typescript
+{ label: "Deep Dive", href: "/deep-dives/about-this-site" },
+```
 
 ### Phase 3: Final Verification
 
-#### 13. Rebuild and verify 2.0 features
+#### 10. Build and verify
 
 ```bash
 npm run build
 ```
 
-Confirm all of the following:
-- Build completes with no errors
-- Your content pages still render (check `dist/` for your page slugs)
-- The new longform page renders (e.g., `dist/deep-dives/trail-philosophy/index.html`)
-- The homepage renders (`dist/index.html`)
-- The mobile editor renders (`dist/mobile/index.html`)
-- Theme CSS files exist in `dist/themes/` (10 files: alpine.css, atelier.css, etc.)
-- No loomwork placeholder pages in the build output (about_Loomwork, guide, mobile-app, building, theming, page-types, reader-controls)
-
-#### 14. Verify the dev server
+Then confirm:
 
 ```bash
-npm run dev
+test -f dist/index.html && echo "✓ homepage" || echo "✗ homepage missing"
+test -f dist/mobile/index.html && echo "✓ mobile" || echo "✗ mobile missing"
+test -f dist/deep-dives/about-this-site/index.html && echo "✓ longform" || echo "✗ longform missing"
+ls dist/themes/*.css 2>/dev/null | wc -l | xargs -I{} echo "✓ {} theme files"
+test ! -f dist/about_Loomwork/index.html && echo "✓ no placeholder content" || echo "✗ placeholder content still present"
 ```
 
-Confirm it starts at http://localhost:4321 without errors.
+All checks must pass before proceeding.
 
-#### 15. Commit
+#### 11. Commit and push
 
 ```bash
 git add -A
 git commit -m "Upgrade to loomwork 2.0: themes, reader controls, longform template"
-```
-
-#### 16. Push
-
-```bash
 git push origin main
 ```
 
-#### 17. Verify deployment
-
-Wait 1-2 minutes for Cloudflare to deploy, then check the live site. Confirm:
-- The theme is visibly active (styled fonts, colors, dark mode)
-- The reader controls gear icon (⚙) appears in the bottom-right corner
-- The new longform page renders with the split-panel layout
-- All existing content pages still work
-- Dark mode toggle works in the reader controls panel
+If this is a DRY_RUN, skip `git push` and report what would be pushed:
+```bash
+git log --oneline -1
+git diff --stat HEAD~1
+```
 
 ---
 
 ## Notes for the agent
 
-- If the merge produces conflicts in framework files (layouts, components,
-  global.css), that means those files were edited in the site repo. Accept the
-  incoming loomwork changes to get back in sync.
-- If `git merge` fails entirely (unrelated histories), use:
-  `git merge loomwork/main --allow-unrelated-histories`
-- Do not push until the local build is clean.
-- The key 2.0 changes are: `theme` field, `reader_controls` field, cleaned-up
-  `site.css`, empty `fonts_url`, longform template page, and CSS variable usage
-  on the homepage. All of these must be present in the final commit.
-- If anything goes wrong after merging, you can abort or roll back:
-  - Before committing: `git merge --abort`
-  - After committing: `git reset --hard HEAD~1`
+- Do not manually edit conflicted files during merge — use `git checkout
+  --ours` or `--theirs` followed by `git add`.
+- If `git merge` fails with "unrelated histories", add
+  `--allow-unrelated-histories`.
+- Do not push until the build is clean.
+- Total steps: 11. This should complete in under 25 turns.
+- If the build fails after Phase 2 changes, read the error carefully.
+  Common fixes: missing import in a page, renamed CSS variable, or a
+  deleted content file that is still referenced in a nav item.

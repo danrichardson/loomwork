@@ -16,7 +16,7 @@ permissions:
 jobs:
   upgrade:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout demo site
         uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
             - If DRY_RUN is true, stop after the build succeeds and report what would be pushed.
             - If DRY_RUN is false, push and report the commit SHA.
           claude_args: |
-            --max-turns 40
+            --max-turns 60
             --allowedTools Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool
 
       - name: Upload Claude execution log
