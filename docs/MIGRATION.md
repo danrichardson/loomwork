@@ -78,6 +78,28 @@ Keep `UPGRADE.md` — you'll need it for future framework updates.
 npm install
 ```
 
+### 1.5 What NOT to bring from your old site
+
+If you're migrating from an existing Astro (or other) site, do **not** copy
+these into the Loomwork clone:
+
+- **Old layouts** — Loomwork provides `Base.astro`, `Content.astro`, and
+  `Longform.astro`. Your old layouts won't work with Loomwork's theme system,
+  reader controls, or content collections.
+- **Old global CSS** — Loomwork's `global.css` + theme CSS replaces your old
+  stylesheet. Copying it over will break themes and dark mode.
+- **Old package.json** — Loomwork has its own dependencies. Only bring over
+  site-specific dependencies by running `npm install <package>` after setup.
+- **Old Astro config** — Only copy the `site` URL field into Loomwork's
+  `astro.config.mjs`. Don't replace the whole file.
+
+What you SHOULD bring:
+- **Content** (text, images) → Phase 3
+- **Custom components** (React islands, site-specific Astro components) →
+  put in `src/components/` with unique names that don't collide with
+  framework components (see 2.8 below)
+- **Homepage design** → rebuild in `src/pages/index.astro` using CSS variables
+
 ---
 
 ## Phase 2: Configure
@@ -149,7 +171,11 @@ Keep `site.css` minimal — only override what's specific to your brand:
 need to override fonts, set `fonts_url` in site.config.ts and override
 `--font-body` / `--font-heading` here.
 
-Goal: `site.css` should be under ~30 lines of variable overrides at most.
+Goal: The `:root` variable override block should be under ~30 lines. But
+`site.css` can be as long as it needs to be — site-specific component styles
+(homepage hero, feature cards, custom section layouts, etc.) all belong here
+too. Just make sure those styles use `var(--color-*)` references instead of
+hardcoded hex values so they work with themes and dark mode.
 
 ### 2.3 Astro config (`astro.config.mjs`)
 
@@ -204,11 +230,40 @@ hardcode hex values. This ensures the page respects themes and dark mode:
 - Accent: `var(--color-accent)`, `var(--color-accent-hover)`, `var(--color-accent-light)`
 - Borders: `var(--color-border)`
 
+If you're converting a complex homepage from your old site, here's the process:
+1. Copy the HTML structure into `index.astro` inside the `<Base>` wrapper
+2. Move all `<style>` blocks into `src/styles/site.css`
+3. Find-and-replace every hardcoded color with the nearest CSS variable:
+   - Light backgrounds (`#f5f5f0`, `#fff`, `#fafafa`) → `var(--color-bg)` or `var(--color-bg-alt)`
+   - Dark text (`#111`, `#333`, `#1a1a1a`) → `var(--color-text)`
+   - Muted text (`#666`, `#888`, `#999`) → `var(--color-text-muted)`
+   - Brand/accent colors → `var(--color-accent)`
+   - Borders (`#ddd`, `#e0e0e0`) → `var(--color-border)`
+4. Test dark mode — toggle it in reader controls and verify nothing is invisible
+
 ### 2.7 README
 
 ```bash
 echo "# Your Site Name" > README.md
 ```
+
+### 2.8 Custom components
+
+If your old site has custom components (React islands, Astro components for
+case studies, etc.), put them in `src/components/` alongside the framework
+components. This is safe because:
+
+- Your custom files have different names than the framework components
+- `git merge loomwork/main` only conflicts on files **both sides changed**
+- A file that only exists in your repo will never conflict
+
+Framework component names to avoid (these are taken):
+`Callout.astro`, `DemoControl.astro`, `Footer.astro`, `Header.astro`,
+`ReaderControls.astro`, `ReadingEnhancements.astro`, `TableOfContents.astro`,
+`ThemePicker.astro`, `YouTube.astro`
+
+Anything else (e.g., `CaseStudy.astro`, `HeroStats.astro`, `PricingTable.tsx`)
+is yours and will merge cleanly forever.
 
 ---
 
@@ -259,6 +314,14 @@ Choose templates based on page purpose:
 split-panel layout with a fixed sidebar is ideal for deep dives, case studies,
 or any long-form content. It verifies the Longform.astro layout works in your
 site.
+
+The `section` field in frontmatter matters for longform pages — it controls
+which pages appear together in the longform sidebar. All pages with the same
+`section` value are grouped. Example: if you have three case studies, give
+them all `section: "case-studies"` and they'll share a sidebar index.
+
+For a single standalone longform page, set `section` to any value (e.g.
+`section: "deep-dives"`) — it will just show that one page in the sidebar.
 
 ### 3.4 Using components in MDX
 
