@@ -55,6 +55,8 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.LOOMWORK_PAT }}
+          model: "claude-sonnet-4-20250514"
+          show_full_output: true
           prompt: |
             Read the file /tmp/VERIFICATION_AGENT_PROMPT.md and follow its instructions exactly,
             with these adjustments for CI context:
@@ -71,9 +73,8 @@ jobs:
             - The --force is expected since we wiped the history.
             - Skip step 8 (dev server). The build verification in step 5 is sufficient for CI.
             - At the end, provide your PASS/FAIL report as the prompt instructs.
-          claude_args: |
-            --max-turns 80
-            --allowedTools Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool
+          allowed_tools: "Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool"
+          max_turns: 80
 
       - name: Upload Claude execution log
         if: always()
