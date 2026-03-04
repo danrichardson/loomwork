@@ -24,11 +24,57 @@ import { SITE } from "../site.config";
       </div>
     </div>
   </section>
+
+  <section class="features">
+    <div class="features__rotator" aria-live="polite">
+      <div class="features__item is-active">
+        <span class="features__icon">🎨</span>
+        <h3>10 Built-in Themes</h3>
+        <p>Manuscript, Brutalist, Terminal, Campfire, and more. One line to switch. Dark mode included.</p>
+      </div>
+      <div class="features__item">
+        <span class="features__icon">⚙</span>
+        <h3>Reader Controls</h3>
+        <p>Visitors choose dark mode, font size, content width, and focus mode. Preferences persist.</p>
+      </div>
+      <div class="features__item">
+        <span class="features__icon">📐</span>
+        <h3>5 Page Templates</h3>
+        <p>Default, landing, guide, tool, and longform. Pick the right layout for every page.</p>
+      </div>
+      <div class="features__item">
+        <span class="features__icon">⚡</span>
+        <h3>Zero-Flash Loading</h3>
+        <p>Themes load before the browser paints. No flicker, no wrong colors, no layout shift.</p>
+      </div>
+      <div class="features__item">
+        <span class="features__icon">📱</span>
+        <h3>Mobile Editor</h3>
+        <p>A built-in PWA at /mobile. Draft and publish from your phone — no app store required.</p>
+      </div>
+      <div class="features__item">
+        <span class="features__icon">🚀</span>
+        <h3>Fork and Go</h3>
+        <p>Clone, edit site.config.ts, push. Your site is live on Cloudflare Pages in 30 seconds.</p>
+      </div>
+    </div>
+    <div class="features__dots" role="tablist" aria-label="Feature navigation">
+      {[0,1,2,3,4,5].map((i) => (
+        <button
+          class={`features__dot ${i === 0 ? "is-active" : ""}`}
+          role="tab"
+          aria-selected={i === 0 ? "true" : "false"}
+          aria-label={`Feature ${i + 1}`}
+          data-index={i}
+        />
+      ))}
+    </div>
+  </section>
 </Base>
 
 <style>
   .hero {
-    padding-block: var(--space-2xl);
+    padding-block: var(--space-2xl) var(--space-lg);
   }
 
   .hero__title {
@@ -56,4 +102,142 @@ import { SITE } from "../site.config";
     gap: var(--space-sm);
     flex-wrap: wrap;
   }
+
+  /* ── Feature rotator ───────────────────────────────── */
+  .features {
+    padding-block: var(--space-xl) var(--space-2xl);
+    text-align: center;
+  }
+
+  .features__rotator {
+    position: relative;
+    height: 160px;
+    max-width: 32rem;
+    margin-inline: auto;
+  }
+
+  .features__item {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+  }
+
+  .features__item.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .features__item.is-exiting {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  .features__icon {
+    font-size: 2rem;
+    margin-block-end: var(--space-xs);
+    display: block;
+    line-height: 1;
+  }
+
+  .features__item h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin-block-end: var(--space-xs);
+    color: var(--color-text);
+  }
+
+  .features__item p {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading);
+    max-width: 28rem;
+  }
+
+  .features__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-lg);
+  }
+
+  .features__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  .features__dot.is-active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: scale(1.2);
+  }
+
+  .features__dot:hover:not(.is-active) {
+    border-color: var(--color-text-muted);
+  }
 </style>
+
+<script>
+  const items = document.querySelectorAll('.features__item');
+  const dots = document.querySelectorAll('.features__dot');
+  let current = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  function show(index: number) {
+    const prev = items[current];
+    const next = items[index];
+
+    // Exit current
+    prev.classList.remove('is-active');
+    prev.classList.add('is-exiting');
+    dots[current].classList.remove('is-active');
+    dots[current].setAttribute('aria-selected', 'false');
+
+    // After exit transition, enter new
+    setTimeout(() => {
+      prev.classList.remove('is-exiting');
+      next.classList.add('is-active');
+      dots[index].classList.add('is-active');
+      dots[index].setAttribute('aria-selected', 'true');
+      current = index;
+    }, 300);
+  }
+
+  function advance() {
+    show((current + 1) % items.length);
+  }
+
+  // Auto-rotate every 4 seconds
+  timer = setInterval(advance, 4000);
+
+  // Click dots to jump
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      if (i === current) return;
+      clearInterval(timer);
+      show(i);
+      timer = setInterval(advance, 4000);
+    });
+  });
+
+  // Pause on hover
+  const rotator = document.querySelector('.features__rotator');
+  rotator?.addEventListener('mouseenter', () => clearInterval(timer));
+  rotator?.addEventListener('mouseleave', () => {
+    timer = setInterval(advance, 4000);
+  });
+</script>
