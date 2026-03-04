@@ -12,7 +12,7 @@ const navItems = SITE.nav_home !== false
 <header class="site-header">
   <div class="site-header__inner container container--full">
     <a href="/" class="site-header__logo">
-      <span class="site-header__mark">⬡</span>
+      <img class="site-header__mark" src="/icons/loom.svg" alt="" width="22" height="22" />
       <span class="site-header__name">{SITE.name}</span>
     </a>
 
@@ -91,10 +91,9 @@ const navItems = SITE.nav_home !== false
   .site-header__logo:hover .site-header__name { color: var(--color-accent); }
 
   .site-header__mark {
-    font-size: var(--text-xl);
     color: var(--color-accent);
     transition: color var(--transition);
-    line-height: 1;
+    flex-shrink: 0;
   }
 
   .site-header__name {

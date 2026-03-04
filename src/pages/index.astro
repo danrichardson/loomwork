@@ -13,7 +13,10 @@ import { SITE } from "../site.config";
 <Base title={SITE.name}>
   <section class="hero">
     <div class="container">
-      <h1 class="hero__title">{SITE.name}</h1>
+      <h1 class="hero__title">
+        <img class="hero__icon" src="/icons/loom.svg" alt="" width="40" height="40" />
+        {SITE.name}
+      </h1>
       <p class="hero__tagline">{SITE.tagline}</p>
       <p class="hero__description">{SITE.description}</p>
 
@@ -28,32 +31,32 @@ import { SITE } from "../site.config";
   <section class="features">
     <div class="features__rotator" aria-live="polite">
       <div class="features__item is-active">
-        <span class="features__icon">🎨</span>
+        <img src="/icons/themes.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
         <h3>10 Built-in Themes</h3>
         <p>Manuscript, Brutalist, Terminal, Campfire, and more. One line to switch. Dark mode included.</p>
       </div>
       <div class="features__item">
-        <span class="features__icon">⚙</span>
+        <img src="/icons/controls.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
         <h3>Reader Controls</h3>
         <p>Visitors choose dark mode, font size, content width, and focus mode. Preferences persist.</p>
       </div>
       <div class="features__item">
-        <span class="features__icon">📐</span>
+        <img src="/icons/templates.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
         <h3>5 Page Templates</h3>
         <p>Default, landing, guide, tool, and longform. Pick the right layout for every page.</p>
       </div>
       <div class="features__item">
-        <span class="features__icon">⚡</span>
+        <img src="/icons/zeroflash.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
         <h3>Zero-Flash Loading</h3>
         <p>Themes load before the browser paints. No flicker, no wrong colors, no layout shift.</p>
       </div>
       <div class="features__item">
-        <span class="features__icon">📱</span>
+        <img src="/icons/mobile.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
         <h3>Mobile Editor</h3>
         <p>A built-in PWA at /mobile. Draft and publish from your phone — no app store required.</p>
       </div>
       <div class="features__item">
-        <span class="features__icon">🚀</span>
+        <img src="/icons/fork.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
         <h3>Fork and Go</h3>
         <p>Clone, edit site.config.ts, push. Your site is live on Cloudflare Pages in 30 seconds.</p>
       </div>
@@ -74,51 +77,69 @@ import { SITE } from "../site.config";
 
 <style>
   .hero {
-    padding-block: var(--space-2xl) var(--space-lg);
+    padding: 24px 0 8px;
+    text-align: center;
   }
 
   .hero__title {
     font-size: clamp(2.5rem, 6vw, 3.5rem);
-    margin-block-end: var(--space-sm);
+    margin-block-end: 4px;
     letter-spacing: -0.025em;
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero__icon {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 0.3em;
+    opacity: 0.7;
   }
 
   .hero__tagline {
     font-size: var(--text-lg);
     color: var(--color-accent);
     font-weight: 600;
-    margin-block-end: var(--space-lg);
+    margin-block-end: 4px;
   }
 
   .hero__description {
     font-size: var(--text-base);
     color: var(--color-text-muted);
     max-width: 36rem;
-    margin-block-end: var(--space-xl);
+    margin-inline: auto;
+    margin-block-end: 12px;
   }
 
   .hero__actions {
     display: flex;
-    gap: var(--space-sm);
+    gap: 6px;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero__actions .btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
   /* ── Feature rotator ───────────────────────────────── */
   .features {
-    padding-block: var(--space-xl) var(--space-2xl);
+    padding: 8px 0 16px;
     text-align: center;
   }
 
   .features__rotator {
-    position: relative;
-    height: 160px;
+    display: grid;
     max-width: 32rem;
     margin-inline: auto;
   }
 
   .features__item {
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -141,22 +162,21 @@ import { SITE } from "../site.config";
   }
 
   .features__icon {
-    font-size: 2rem;
+    color: var(--color-accent);
     margin-block-end: var(--space-xs);
     display: block;
-    line-height: 1;
   }
 
   .features__item h3 {
     font-family: var(--font-heading);
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     font-weight: 700;
-    margin-block-end: var(--space-xs);
+    margin-block-end: 2px;
     color: var(--color-text);
   }
 
   .features__item p {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
     line-height: var(--leading);
     max-width: 28rem;
@@ -166,7 +186,7 @@ import { SITE } from "../site.config";
     display: flex;
     justify-content: center;
     gap: var(--space-sm);
-    margin-block-start: var(--space-lg);
+    margin-block-start: 6px;
   }
 
   .features__dot {
