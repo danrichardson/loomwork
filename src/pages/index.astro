@@ -332,6 +332,17 @@ import { SITE } from "../site.config";
   .clone-cta__link:hover {
     text-decoration: underline;
   }
+
+  /* ── Mobile adjustments ────────────────────────────── */
+  @media (max-width: 767px) {
+    .hero { padding: 12px 0 4px; }
+    .hero__title { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+    .hero__description { font-size: var(--text-sm); margin-block-end: 8px; }
+    .hero__actions .btn { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+    .features { padding: 4px 0 6px; }
+    .clone-cta { margin-block-start: var(--space-md); }
+    .clone-cta__box { font-size: 0.75rem; padding: 0.5rem 0.75rem; }
+  }
 </style>
 
 <script>
