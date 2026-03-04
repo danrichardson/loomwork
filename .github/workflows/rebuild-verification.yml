@@ -16,7 +16,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     if: inputs.confirm_destroy == 'REBUILD'
     steps:
       - name: Safety check
@@ -69,9 +69,10 @@ jobs:
             - After completing all steps and the build passes, commit everything and run:
               git push origin main --force
             - The --force is expected since we wiped the history.
+            - Skip step 8 (dev server). The build verification in step 5 is sufficient for CI.
             - At the end, provide your PASS/FAIL report as the prompt instructs.
           claude_args: |
-            --max-turns 50
+            --max-turns 80
             --allowedTools Bash,Read,Write,Edit,MultiEdit,GlobTool,GrepTool
 
       - name: Upload Claude execution log

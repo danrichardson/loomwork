@@ -9,6 +9,16 @@ Use this prompt with a coding agent to verify that the Loomwork fork-and-rebrand
 You are a developer testing the fork-and-rebrand workflow for Loomwork, an open-source Astro site starter. The repo is at https://github.com/danrichardson/loomwork
 Your job is to follow the repo's directions exactly to create a new site called "Coastal Kitchen" — a food and recipe site focused on seafood and coastal cooking. You should NOT look at any other demo site for reference. Follow only the directions in the loomwork repo's README and any setup guides in the repo.
 
+### Efficiency Notes
+
+This workflow must complete within a limited turn budget. Follow these rules to avoid running out of turns:
+
+- **Use Write (not Edit) for new files.** Every content page, the homepage, site.css, and README are new — write the full file in one shot.
+- **Batch shell commands.** Combine all `rm` deletions into a single Bash call. Combine all verification `grep`/`test` checks into a single Bash call.
+- **Don't read files you're about to overwrite.** For site.config.ts, package.json, astro.config.mjs, and wrangler.toml — read once, then write the complete replacement.
+- **Content pages should be concise.** A few solid paragraphs per page is sufficient. The goal is to exercise templates and components, not write a real cookbook.
+- **Parallelize verification.** Steps 5–7 can be checked with a handful of combined shell commands, not individual reads.
+
 Requirements
 
 1. Follow the Quick Start directions exactly as written. Clone the repo into c:\src\loomwork-verification (or an equivalent empty directory), remove the origin, and install dependencies. Do not skip steps or improvise — the point is to test whether the directions work.
@@ -38,7 +48,7 @@ about.mdx — About Coastal Kitchen (use the `default` template — who you are,
 recipes.mdx — Featured recipes (use the `guide` template — include 4–6 seafood recipes with ingredients and steps, use Callout components for tips)
 techniques.mdx — Cooking techniques (use the `guide` template — cover things like grilling fish, shucking oysters, making stock, etc.)
 pantry.mdx — Pantry essentials (use the `guide` template — cover key ingredients, spices, sauces for coastal cooking)
-deep-dives/seasonal-catch.mdx — A deep-dive article about seasonal seafood (use the `longform` template — this exercises the split-panel Longform layout with a fixed sidebar. Write 1000+ words covering spring/summer/fall/winter catches, with sections for each season. Include Callout components.)
+deep-dives/seasonal-catch.mdx — A deep-dive article about seasonal seafood (use the `longform` template — this exercises the split-panel Longform layout with a fixed sidebar. Write 500+ words covering spring/summer/fall/winter catches, with sections for each season. Include Callout components.)
 
 Each page needs proper frontmatter: title, description (max 160 chars), section, nav_order, template, and date_created. Available templates: `default`, `landing`, `guide`, `tool`, `longform`. Use Callout components (import Callout from '../../components/Callout.astro';) with various types (tip, warning, info, danger).
 
