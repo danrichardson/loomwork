@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import Content from "../layouts/Content.astro";
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// STATIC PATHS
+//
+// Astro calls this at build time to generate one page per
+// content collection entry. The file structure inside
+// src/content/pages/ determines the URL:
+//
+//   src/content/pages/garage-solar/what-is-garage-solar.mdx
+//   → getStaticPaths returns { params: { slug: "garage-solar/what-is-garage-solar" } }
+//   → Built page: /garage-solar/what-is-garage-solar/
+//
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+export async function getStaticPaths() {
+  const pages = await getCollection("pages", ({ data }) => !data.draft);
+
+  return pages.map((page) => ({
+    params: { slug: page.id.replace(/\.mdx?$/, "") },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content: RenderedContent, headings } = await page.render();
+---
+
+<Content
+  title={page.data.title}
+  description={page.data.description}
+  template={page.data.template}
+  hero_image={page.data.hero_image}
+  hero_alt={page.data.hero_alt}
+  date_updated={page.data.date_updated}
+  headings={headings}
+>
+  <RenderedContent />
+</Content>

@@ -1,0 +1,53 @@
+---
+import { SITE } from "../site.config";
+---
+
+<footer class="site-footer">
+  <div class="container container--full site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">{SITE.name}</p>
+      <p class="text-sm text-muted">{SITE.tagline}</p>
+    </div>
+    <div class="site-footer__meta text-sm text-muted">
+      <p>&copy; {new Date().getFullYear()} {SITE.footer.company}</p>
+      {SITE.footer.license && <p>{SITE.footer.license}</p>}
+      {SITE.email && (
+        <p>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </p>
+      )}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-block-start: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    padding-block: var(--space-xl);
+    margin-block-start: var(--space-2xl);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+
+  .site-footer__name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-xs);
+  }
+
+  .site-footer__meta {
+    text-align: end;
+  }
+  .site-footer__meta p { margin-block-end: var(--space-xs); }
+
+  @media (max-width: 600px) {
+    .site-footer__meta { text-align: start; }
+  }
+</style>

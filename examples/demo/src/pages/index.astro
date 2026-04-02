@@ -1,0 +1,149 @@
+---
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// HOMEPAGE - SITE-SPECIFIC FILE
+//
+// This file is YOURS. Customize the layout, hero, CTAs,
+// and content for your site. It won't conflict with
+// framework updates from the loomwork repo.
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import Base from "../layouts/Base.astro";
+import { SITE } from "../site.config";
+---
+
+<Base title={SITE.name}>
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">Hike smarter. Go further.</p>
+      <h1 class="hero__title">{SITE.name}</h1>
+      <p class="hero__tagline">{SITE.tagline}</p>
+      <p class="hero__description">
+        From weekend day hikes to multi-day backcountry routes,
+        we've got trail guides, gear reviews, and wilderness safety tips
+        to help you get outside with confidence.
+      </p>
+
+      <div class="hero__actions">
+        <a href="/trails" class="btn btn--primary">Explore Trails</a>
+        <a href="/gear" class="btn btn--secondary">Gear Essentials</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <div class="features__grid">
+        <div class="feature-card">
+          <h3>Trail Guides</h3>
+          <p>Detailed write-ups on our favorite hikes across the Pacific Northwest, Rockies, and Appalachians. Distance, elevation, difficulty, and honest tips.</p>
+          <a href="/trails">Browse trails &rarr;</a>
+        </div>
+        <div class="feature-card">
+          <h3>Gear That Works</h3>
+          <p>Field-tested recommendations for boots, packs, layers, and the ten essentials. No affiliate gimmicks - just what we actually carry.</p>
+          <a href="/gear">See our picks &rarr;</a>
+        </div>
+        <div class="feature-card">
+          <h3>Stay Safe Out There</h3>
+          <p>Weather reading, wildlife encounters, navigation, and first aid. The skills you need when cell service ends and the trail begins.</p>
+          <a href="/safety">Read safety guide &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+
+  .hero__eyebrow {
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-block-end: var(--space-xs);
+  }
+
+  .hero__title {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    margin-block-end: var(--space-sm);
+    letter-spacing: -0.025em;
+  }
+
+  .hero__tagline {
+    font-size: var(--text-lg);
+    color: var(--color-accent);
+    font-weight: 600;
+    margin-block-end: var(--space-lg);
+  }
+
+  .hero__description {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    max-width: 36rem;
+    margin-block-end: var(--space-xl);
+    line-height: 1.7;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .btn--primary {
+    background: var(--color-accent);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.2s;
+  }
+
+  .btn--primary:hover {
+    background: var(--color-accent-hover);
+  }
+
+  /* ── Feature cards ─────────────────────────────────── */
+  .features {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .feature-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-lg);
+  }
+
+  .feature-card h3 {
+    margin-block-end: var(--space-sm);
+    color: var(--color-text);
+  }
+
+  .feature-card p {
+    color: var(--color-text-muted);
+    margin-block-end: var(--space-md);
+    line-height: 1.6;
+  }
+
+  .feature-card a {
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .feature-card a:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+  }
+</style>

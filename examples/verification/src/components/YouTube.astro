@@ -1,0 +1,50 @@
+---
+interface Props {
+  id: string;
+  title?: string;
+}
+
+const { id, title = "Video" } = Astro.props;
+---
+
+<div class="youtube-embed">
+  <lite-youtube videoid={id}>
+    <a href={`https://www.youtube.com/watch?v=${id}`} class="youtube-embed__link">
+      <span class="sr-only">Play: {title}</span>
+    </a>
+  </lite-youtube>
+</div>
+
+{/* 
+  lite-youtube-embed is optional but recommended for performance.
+  If you don't want the dependency, replace the above with a 
+  standard iframe:
+  
+  <iframe
+    src={`https://www.youtube-nocookie.com/embed/${id}`}
+    title={title}
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+*/}
+
+<style>
+  .youtube-embed {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin-block: var(--space-lg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .youtube-embed :global(iframe),
+  .youtube-embed :global(lite-youtube) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
