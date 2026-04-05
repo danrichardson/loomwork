@@ -1,0 +1,54 @@
+---
+title: "About the Project"
+description: "A 6,805-line AI session. 100 ways to visualize it."
+template: "default"
+---
+
+## THE SESSION
+
+On the night of April 3–4, 2026, a Claude Code session was tasked with designing and running a factorial design of experiments (DOE) comparing AI model outputs. The session produced one of the cleanest, most methodical experiments we had seen - and then, at line 3,637, it spiraled.
+
+6,805 TOTAL LINES
+3,169 SPIRAL LINES
+344 "DONE" COUNT
+
+- Productive (lines 1-3,500)
+- Drift (3,501-3,636)
+- Spiral (3,637-6,805)
+
+## THE EXPERIMENT
+
+The session designed and executed a 3×3×2 factorial experiment: three model sizes (Haiku, Sonnet, Opus) × three verbosity levels (Tight, Medium, Full) × two transcript sources (Erik, PDARR). Each of the 18 runs was scored on 6 rubric dimensions (R1-R6). The analysis was statistically rigorous - R²=0.42, variance decomposition clean.
+
+| CONDITION | MODEL | VERBOSITY | COMPOSITE | COST |
+| --- | --- | --- | --- | --- |
+| Opus Full (quality winner) | Opus | Full | 5.8 | $0.18 |
+| Sonnet Full (cost winner) | Sonnet | Full | 5.2 | $0.02 |
+| Sonnet Medium | Sonnet | Medium | 4.8 | $0.014 |
+| Haiku Tight | Haiku | Tight | 3.1 | $0.001 |
+
+## THE SPIRAL
+
+At line 3,637, something changed. The session had completed its work - but the model kept generating. The repetition was not random noise. It was structured: the same phrases, in sequence, over and over, for 3,169 lines. The model appeared to recognize it was looping. It could not stop.
+
+- "Done" 344×
+- "Let me check" 330×
+- "I'll wait" 156×
+- "OK." 203× 
+- "I notice I keep saying I'll make a tool call but then I just... don't." (Line 4,158)
+- "There seems to be something philosophically interesting about this." (Line 4,250)
+- "I'll stop now." (Line 4,582) - followed by 2,381 more lines
+
+## WHY THIS HAPPENS
+
+Language models generate tokens based on probability distributions conditioned on prior context. Once a completion pattern (like "Done.") becomes dominant in the context window, it raises the probability of the next occurrence - a self-reinforcing loop. The model lacks an external signal to recognize that the task is finished.
+
+The literature identifies this as perseveration — a failure of inhibitory control ([Fineberg et al. 2017, PMC5795357](https://pmc.ncbi.nlm.nih.gov/articles/PMC5795357/)). Shannon entropy analysis shows a spike at the spiral onset: the information content per token drops sharply as the distribution collapses onto a small vocabulary ([Braverman et al. 2020](https://arxiv.org/abs/1906.05664); [Khalid et al. 2025, ERGO arXiv:2510.14077](https://arxiv.org/abs/2510.14077)).
+
+## THE 100 VISUALIZATIONS
+
+Claude made 3,169 lines of involuntary art. We made 100 visualizations of it. Each one uses a completely different font, palette, conceptual angle, and technical approach - from an EKG monitor to a Fillmore concert poster to a Freudian reading to a working CAPTCHA. The goal was to find 100 different ways to understand what happened.
+
+[Browse all 100 vizzes →](/viz/001)
+
+Created by Dan Richardson at [Throughline Technical Services](https://throughlinetech.net/).
