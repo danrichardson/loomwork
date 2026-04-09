@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import { VIZ_META, nav } from '../../shell.js';
+
+export async function getStaticPaths() {
+  return VIZ_META.map(v => ({
+    params: { id: v.id },
+    props: { v },
+  }));
+}
+
+const { v } = Astro.props;
+const navHtml = nav(v.id);
+---
+
+<Base title={`${v.id} - ${v.title}`}>
+  <Fragment set:html={navHtml} />
+  <iframe
+    src={`/viz-embed/${v.id}/`}
+    title={v.title}
+    class="viz-frame"
+    loading="lazy"
+    scrolling="yes"
+  ></iframe>
+</Base>
+
+<style>
+  .viz-frame {
+    display: block;
+    width: 100%;
+    height: calc(100vh - var(--header-height) - 36px);
+    border: none;
+    overflow: hidden;
+  }
+</style>

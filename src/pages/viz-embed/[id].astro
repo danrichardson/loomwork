@@ -1,0 +1,35 @@
+---
+/**
+ * Raw viz page — rendered inside an iframe on /viz/[id].
+ * Outputs the full standalone HTML document produced by each viz JS file.
+ * The #global-masthead nav is stripped here; the outer page owns navigation.
+ */
+import { VIZ_META } from '../../shell.js';
+
+export async function getStaticPaths() {
+  const modules = import.meta.glob('../../viz/*.js');
+  const paths = [];
+  for (const v of VIZ_META) {
+    const importPath = `../../viz/${v.id}.js`;
+    if (modules[importPath]) {
+      const mod = await modules[importPath]();
+      paths.push({ params: { id: v.id }, props: { renderFn: mod.render } });
+    }
+  }
+  return paths;
+}
+
+const { renderFn } = Astro.props;
+let html = renderFn();
+
+// Strip the #global-masthead nav block (style + nav + keyboard script)
+// The outer /viz/[id] page owns navigation.
+html = html.replace(/<style>\s*#global-masthead[\s\S]*?<\/style>/i, '');
+html = html.replace(/<nav id="global-masthead">[\s\S]*?<\/nav>/i, '');
+// Strip the inline keyboard/touch nav script that nav() emits
+html = html.replace(/<script>\(function\(\)\{[\s\S]*?var tx=[\s\S]*?\}\)\(\);<\/script>/, '');
+
+// Strip OS dark mode media queries — reader controls own dark mode
+html = html.replace(/@media\s*\([^)]*prefers-color-scheme[^)]*\)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)?\}/g, '');
+---
+<Fragment set:html={html} />

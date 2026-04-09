@@ -1,15 +1,54 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SITE STYLES - Override Loomwork defaults here.
-   
+
    This file is YOURS. Edit it freely. It won't conflict
    with framework updates from the loomwork repo.
-   
+
    Override any CSS variable from global.css:
-   
+
    :root {
      --color-accent: #2d6a4f;
      --font-heading: "Bitter", Georgia, serif;
    }
-   
+
    Add site-specific styles below the overrides.
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-2xl);
+  border-block-end: 3px solid var(--color-border);
+}
+
+.hero .container {
+  text-align: center;
+}
+
+.hero__tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-lg);
+}
+
+.hero__title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-block: 0 var(--space-lg);
+}
+
+.hero__description {
+  max-width: 44rem;
+  margin-inline: auto;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  margin-block-end: 0;
+}

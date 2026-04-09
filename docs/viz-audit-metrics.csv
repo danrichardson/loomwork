@@ -1,0 +1,101 @@
+id,file,title,routed,inNav,syntaxOk,hasNav,hasViewportMeta,hasDarkMode,hasMediaQuery,hasFullViewport,hasKeyboard,hasMouse,hasTouchPointer,hasInteractive,hasAnimation,usesCanvas,usesSvg,usesVideo
+001,001.js,001 – The Factorial Heat Matrix — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+002,002.js,002 – The R-Squared Race — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+003,003.js,003 – The Cost-Quality Scatter — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,false,true,false,false
+004,004.js,004 – The Radar Spider — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+005,005.js,005 – The Variance Waterfall — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+006,006.js,006 – The Box Plot Ballet — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+007,007.js,007 – The Sankey Flow — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,true,false
+008,008.js,008 – The 3D Response Surface — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,false,true,false,false
+009,009.js,009 – Parallel Coordinates — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,true,true,true,false,true,false
+010,010.js,010 – The Mosaic Matrix — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+011,011.js,011 – The Coherence ECG — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+012,012.js,012 – The Phase Thermometer — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+013,013.js,013 – The Entropy Clock — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+014,014.js,014 – The Progress Bar of Doom — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+015,015.js,015 – The Sine Wave — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+016,016.js,016 – The Lorenz Butterfly — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+017,017.js,017 – The Flatline — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+018,018.js,018 – The Terminal Replay — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+019,019.js,019 – The Frequency Waterfall — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,false,true,false,false
+020,020.js,020 – The Matrix Rain — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+021,021.js,021 – The Health Bar Drain — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+022,022.js,022 – NES Loading Screen — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+023,023.js,023 – Pac-Man Spiral Chase — Claude Lost Its Mind,false,false,true,true,true,false,false,true,true,false,false,true,true,true,false,false
+024,024.js,024 – Space Invaders DOE — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+025,025.js,025 – The Dungeon Map — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+026,026.js,026 – Game Over Screen — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+027,027.js,027 – Tetris Collapse — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+028,028.js,028 – The Gameboy Screen — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,true,true,true,false,false,false
+029,029.js,029 – The Progress Quest — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+030,030.js,030 – Pixel Portrait — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+031,031.js,031 – The VHS Glitch — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,true,true,true,true,false,false
+032,032.js,032 – Chromatic Aberration — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,true,true,true,false,false,false
+033,033.js,033 – Pixel Sort — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+034,034.js,034 – The Databend — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,false,true,false,false
+035,035.js,035 – CRT Phosphor Burn — Claude Lost Its Mind,false,false,true,true,true,false,false,false,false,false,true,true,true,false,false,false
+036,036.js,036 – Signal Interference — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+037,037.js,037 – The BSOD — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+038,038.js,038 – Corrupted JSON — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+039,039.js,039 – Glitch Mosaic — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+040,040.js,040 – The Broken Carousel — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+041,041.js,041 – Word Gravity — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+042,042.js,042 – The Done Bubble Machine — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+043,043.js,043 – The Ignition Point — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+044,044.js,044 – The Constellation — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+045,045.js,045 – The Wrecking Ball — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+046,046.js,046 – Phantom Traffic Jam — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+047,047.js,047 – Confetti Shower — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+048,048.js,048 – The Sandfall — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+049,049.js,049 – Spring Mesh Network — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+050,050.js,050 – Fireworks Show — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,true,true,true,true,false,false
+051,051.js,051 – The DNA Helix — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+052,052.js,052 – Bacterial Growth Curve — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+053,053.js,053 – Cellular Automata — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,true,false,false
+054,054.js,054 – Neural Pathways — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+055,055.js,055 – The Fractal Tree — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+056,056.js,056 – The Thunderstorm — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+057,057.js,057 – Predator-Prey Dynamics — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,false,true,false,true,false,false
+058,058.js,058 – The Entropy Collapse — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,false,true,false,true,false,false
+059,059.js,059 – The Microscope View — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+060,060.js,060 – The Self-Reinforcing Loop — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,false,true,false,true,false,false
+061,061.js,061 – The Worst Chart Ever — Claude Lost Its Mind,true,true,true,true,true,false,false,false,true,true,true,true,false,true,false,false
+062,062.js,062 – The Tracked Changes Doc — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,false,false,false
+063,063.js,063 – The Gantt Chart — Claude Lost Its Mind,false,false,true,true,true,false,false,false,false,false,true,true,true,false,false,false
+064,064.js,064 – KPI Dashboard — Claude Lost Its Mind,true,true,true,true,true,false,true,true,true,true,true,true,true,true,false,false
+065,065.js,065 – The Pivot Table — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+066,066.js,066 – The Org Chart — Claude Lost Its Mind,true,true,true,true,true,false,false,false,true,true,true,true,true,false,true,false
+067,067.js,067 – The Email Thread — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,false,false,false
+068,068.js,068 – The Performance Review — Claude Lost Its Mind,true,true,true,true,true,false,false,false,false,true,true,true,true,false,false,false
+069,069.js,069 – The Infographic — Claude Lost Its Mind,true,true,true,true,true,false,false,false,true,true,true,true,true,false,false,false
+070,070.js,070 – Death by PowerPoint — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,true,false,false
+071,071.js,071 – The Clinical Assessment — Claude Lost Its Mind,true,true,true,true,true,false,false,false,true,true,true,true,true,false,false,false
+072,072.js,072 – The Obsessive Loop Chart — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,false,true,false
+073,073.js,073 – The Rorschach — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,false,true,false,false
+074,074.js,074 – The Repetition Compulsion — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,false,false,false
+075,075.js,075 – The CBT Map — Claude Lost Its Mind,false,false,true,true,true,false,false,false,false,false,false,false,false,false,true,false
+076,076.js,076 – The Academic Abstract — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,false,false,false
+077,077.js,077 – The Research Poster — Claude Lost Its Mind,true,true,true,true,true,false,true,true,false,true,true,true,true,false,false,false
+078,078.js,078 – The Systematic Review — Claude Lost Its Mind,false,false,true,true,true,false,false,false,false,false,false,false,false,false,true,false
+079,079.js,079 – The Citation Graph — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+080,080.js,080 – The Peer Review — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,false,false,false
+081,081.js,081 – The Piano Roll — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+082,082.js,082 – The Waveform — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+083,083.js,083 – The Equalizer — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,true,false,false
+084,084.js,084 – The Vinyl Record — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+085,085.js,085 – Sheet Music — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,false,true,false,false
+086,086.js,086 – The DJ Crossfader — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+087,087.js,087 – Concert Poster — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,true,false,false
+088,088.js,088 – The Radio Tuner — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+089,089.js,089 – The Metronome — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+090,090.js,090 – The Album Art — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,true,true,true,true,false,false
+091,091.js,091 – The Galaxy Map — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+092,092.js,092 – The Screenplay — Claude Lost Its Mind,true,true,true,true,true,false,true,true,true,true,true,true,true,false,false,false
+093,093.js,093 – Choose Your Adventure — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+094,094.js,094 – The Newspaper — Claude Lost Its Mind,true,true,true,true,true,false,true,true,true,true,true,true,true,false,false,false
+095,095.js,095 – The Tarot Reading — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,true,true,true,true,false,false
+096,096.js,096 – The QR Code — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,false,true,true,true,false,false
+097,097.js,097 – The CAPTCHA — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,true,true,true,true,false,false,false
+098,098.js,098 – The Blank Page — Claude Lost Its Mind,true,true,true,true,true,false,false,true,true,true,false,true,true,false,false,false
+099,099.js,099 – The Loading Spinner — Claude Lost Its Mind,false,false,true,true,true,false,false,true,false,false,false,false,true,false,false,false
+100,100.js,100 – The Mirror — Claude Lost Its Mind,true,true,true,true,true,false,false,true,false,false,true,true,true,true,false,true

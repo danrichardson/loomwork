@@ -21,22 +21,7 @@
   --radius:        0px;
   --shadow-sm:     none;
   --shadow-md:     none;
-}
-
-/* OS-level dark mode */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-dark="false"]) {
-    --color-bg:           #000000;
-    --color-bg-alt:       #111111;
-    --color-surface:      #111111;
-    --color-text:         #FFFFFF;
-    --color-text-muted:   #AAAAAA;
-    --color-accent:       #FFFFFF;
-    --color-accent-hover: #FF0000;
-    --color-accent-light: #1A1A1A;
-    --color-border:       #FFFFFF;
-    --color-code-bg:      #111111;
-  }
+  --color-danger:  #FF0000;
 }
 
 /* Reader-controls dark toggle */
@@ -51,6 +36,7 @@
   --color-accent-light: #1A1A1A;
   --color-border:       #FFFFFF;
   --color-code-bg:      #111111;
+  --color-danger:       #FF0000;
 }
 
 /* ── Brutalist layout overrides ──────────────────────────── */

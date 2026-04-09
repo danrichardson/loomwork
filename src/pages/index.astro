@@ -1,409 +1,549 @@
 ---
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// HOMEPAGE - SITE-SPECIFIC FILE
-//
-// This file is YOURS. Customize the layout, hero, CTAs,
-// and content for your site. It won't conflict with
-// framework updates from the loomwork repo.
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-import Base from "../layouts/Base.astro";
-import { SITE } from "../site.config";
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.config';
+
+// Load our converted metadata directly
+const VIZ_META = [
+  {
+    "id": "001",
+    "title": "The Factorial Heat Matrix",
+    "cat": "Meta"
+  },
+  {
+    "id": "002",
+    "title": "The R-Squared Race",
+    "cat": "Meta"
+  },
+  {
+    "id": "003",
+    "title": "The Cost-Quality Scatter",
+    "cat": "Meta"
+  },
+  {
+    "id": "004",
+    "title": "The Radar Spider",
+    "cat": "Meta"
+  },
+  {
+    "id": "005",
+    "title": "The Variance Waterfall",
+    "cat": "Meta"
+  },
+  {
+    "id": "006",
+    "title": "The Box Plot Ballet",
+    "cat": "Meta"
+  },
+  {
+    "id": "007",
+    "title": "The Sankey Flow",
+    "cat": "Meta"
+  },
+  {
+    "id": "008",
+    "title": "The 3D Response Surface",
+    "cat": "Meta"
+  },
+  {
+    "id": "009",
+    "title": "Parallel Coordinates",
+    "cat": "Meta"
+  },
+  {
+    "id": "010",
+    "title": "The Mosaic Matrix",
+    "cat": "Meta"
+  },
+  {
+    "id": "011",
+    "title": "The Coherence ECG",
+    "cat": "Meta"
+  },
+  {
+    "id": "012",
+    "title": "The Phase Thermometer",
+    "cat": "Meta"
+  },
+  {
+    "id": "013",
+    "title": "The Entropy Clock",
+    "cat": "Science"
+  },
+  {
+    "id": "014",
+    "title": "The Progress Bar of Doom",
+    "cat": "Meta"
+  },
+  {
+    "id": "015",
+    "title": "The Sine Wave",
+    "cat": "Meta"
+  },
+  {
+    "id": "016",
+    "title": "The Lorenz Butterfly",
+    "cat": "Meta"
+  },
+  {
+    "id": "017",
+    "title": "The Flatline",
+    "cat": "Meta"
+  },
+  {
+    "id": "018",
+    "title": "The Terminal Replay",
+    "cat": "Meta"
+  },
+  {
+    "id": "019",
+    "title": "The Frequency Waterfall",
+    "cat": "Meta"
+  },
+  {
+    "id": "020",
+    "title": "The Matrix Rain",
+    "cat": "Meta"
+  },
+  {
+    "id": "021",
+    "title": "The Health Bar Drain",
+    "cat": "Meta"
+  },
+  {
+    "id": "022",
+    "title": "NES Loading Screen",
+    "cat": "Meta"
+  },
+  {
+    "id": "023",
+    "title": "Pac-Man Spiral Chase",
+    "cat": "Meta"
+  },
+  {
+    "id": "024",
+    "title": "Space Invaders DOE",
+    "cat": "Meta"
+  },
+  {
+    "id": "025",
+    "title": "The Dungeon Map",
+    "cat": "Meta"
+  },
+  {
+    "id": "026",
+    "title": "Game Over Screen",
+    "cat": "Meta"
+  },
+  {
+    "id": "027",
+    "title": "Tetris Collapse",
+    "cat": "Meta"
+  },
+  {
+    "id": "028",
+    "title": "The Gameboy Screen",
+    "cat": "Meta"
+  },
+  {
+    "id": "029",
+    "title": "The Progress Quest",
+    "cat": "Meta"
+  },
+  {
+    "id": "030",
+    "title": "Pixel Portrait",
+    "cat": "Meta"
+  },
+  {
+    "id": "031",
+    "title": "The VHS Glitch",
+    "cat": "Meta"
+  },
+  {
+    "id": "032",
+    "title": "Chromatic Aberration",
+    "cat": "Meta"
+  },
+  {
+    "id": "033",
+    "title": "Pixel Sort",
+    "cat": "Meta"
+  },
+  {
+    "id": "034",
+    "title": "The Databend",
+    "cat": "Meta"
+  },
+  {
+    "id": "035",
+    "title": "CRT Phosphor Burn",
+    "cat": "Meta"
+  },
+  {
+    "id": "036",
+    "title": "Signal Interference",
+    "cat": "Meta"
+  },
+  {
+    "id": "037",
+    "title": "The BSOD",
+    "cat": "Meta"
+  },
+  {
+    "id": "038",
+    "title": "Corrupted JSON",
+    "cat": "Meta"
+  },
+  {
+    "id": "039",
+    "title": "Glitch Mosaic",
+    "cat": "Meta"
+  },
+  {
+    "id": "040",
+    "title": "The Broken Carousel",
+    "cat": "Meta"
+  },
+  {
+    "id": "041",
+    "title": "Word Gravity",
+    "cat": "Meta"
+  },
+  {
+    "id": "042",
+    "title": "The Done Bubble Machine",
+    "cat": "Meta"
+  },
+  {
+    "id": "043",
+    "title": "The Ignition Point",
+    "cat": "Meta"
+  },
+  {
+    "id": "044",
+    "title": "The Constellation",
+    "cat": "Meta"
+  },
+  {
+    "id": "045",
+    "title": "The Wrecking Ball",
+    "cat": "Meta"
+  },
+  {
+    "id": "046",
+    "title": "Phantom Traffic Jam",
+    "cat": "Meta"
+  },
+  {
+    "id": "047",
+    "title": "Confetti Shower",
+    "cat": "Meta"
+  },
+  {
+    "id": "048",
+    "title": "The Sandfall",
+    "cat": "Meta"
+  },
+  {
+    "id": "049",
+    "title": "Spring Mesh Network",
+    "cat": "Meta"
+  },
+  {
+    "id": "050",
+    "title": "Fireworks Show",
+    "cat": "Meta"
+  },
+  {
+    "id": "051",
+    "title": "The DNA Helix",
+    "cat": "Meta"
+  },
+  {
+    "id": "052",
+    "title": "Bacterial Growth Curve",
+    "cat": "Science"
+  },
+  {
+    "id": "053",
+    "title": "Cellular Automata",
+    "cat": "Meta"
+  },
+  {
+    "id": "054",
+    "title": "Neural Pathways",
+    "cat": "Meta"
+  },
+  {
+    "id": "055",
+    "title": "The Fractal Tree",
+    "cat": "Meta"
+  },
+  {
+    "id": "056",
+    "title": "The Thunderstorm",
+    "cat": "Meta"
+  },
+  {
+    "id": "057",
+    "title": "Predator-Prey Dynamics",
+    "cat": "Meta"
+  },
+  {
+    "id": "058",
+    "title": "The Entropy Collapse",
+    "cat": "Science"
+  },
+  {
+    "id": "059",
+    "title": "The Microscope View",
+    "cat": "Meta"
+  },
+  {
+    "id": "060",
+    "title": "The Self-Reinforcing Loop",
+    "cat": "Meta"
+  },
+  {
+    "id": "061",
+    "title": "The Worst Chart Ever",
+    "cat": "Excel Hell"
+  },
+  {
+    "id": "062",
+    "title": "The Tracked Changes Doc",
+    "cat": "Meta"
+  },
+  {
+    "id": "063",
+    "title": "The Gantt Chart",
+    "cat": "Excel Hell"
+  },
+  {
+    "id": "064",
+    "title": "KPI Dashboard",
+    "cat": "Excel Hell"
+  },
+  {
+    "id": "065",
+    "title": "The Pivot Table",
+    "cat": "Excel Hell"
+  },
+  {
+    "id": "066",
+    "title": "The Org Chart",
+    "cat": "Excel Hell"
+  },
+  {
+    "id": "067",
+    "title": "The Email Thread",
+    "cat": "Meta"
+  },
+  {
+    "id": "068",
+    "title": "The Performance Review",
+    "cat": "Meta"
+  },
+  {
+    "id": "069",
+    "title": "The Infographic",
+    "cat": "Meta"
+  },
+  {
+    "id": "070",
+    "title": "Death by PowerPoint",
+    "cat": "Meta"
+  },
+  {
+    "id": "071",
+    "title": "The Clinical Assessment",
+    "cat": "Psychology"
+  },
+  {
+    "id": "072",
+    "title": "The Obsessive Loop Chart",
+    "cat": "Excel Hell"
+  },
+  {
+    "id": "073",
+    "title": "The Rorschach",
+    "cat": "Psychology"
+  },
+  {
+    "id": "074",
+    "title": "The Repetition Compulsion",
+    "cat": "Meta"
+  },
+  {
+    "id": "075",
+    "title": "The CBT Map",
+    "cat": "Meta"
+  },
+  {
+    "id": "076",
+    "title": "The Academic Abstract",
+    "cat": "Meta"
+  },
+  {
+    "id": "077",
+    "title": "The Research Poster",
+    "cat": "Meta"
+  },
+  {
+    "id": "078",
+    "title": "The Systematic Review",
+    "cat": "Meta"
+  },
+  {
+    "id": "079",
+    "title": "The Citation Graph",
+    "cat": "Meta"
+  },
+  {
+    "id": "080",
+    "title": "The Peer Review",
+    "cat": "Psychology"
+  },
+  {
+    "id": "081",
+    "title": "The Piano Roll",
+    "cat": "Meta"
+  },
+  {
+    "id": "082",
+    "title": "The Waveform",
+    "cat": "Meta"
+  },
+  {
+    "id": "083",
+    "title": "The Equalizer",
+    "cat": "Meta"
+  },
+  {
+    "id": "084",
+    "title": "The Vinyl Record",
+    "cat": "Meta"
+  },
+  {
+    "id": "085",
+    "title": "Sheet Music",
+    "cat": "Music"
+  },
+  {
+    "id": "086",
+    "title": "The DJ Crossfader",
+    "cat": "Meta"
+  },
+  {
+    "id": "087",
+    "title": "Concert Poster",
+    "cat": "Music"
+  },
+  {
+    "id": "088",
+    "title": "The Radio Tuner",
+    "cat": "Meta"
+  },
+  {
+    "id": "089",
+    "title": "The Metronome",
+    "cat": "Meta"
+  },
+  {
+    "id": "090",
+    "title": "The Album Art",
+    "cat": "Music"
+  },
+  {
+    "id": "091",
+    "title": "The Galaxy Map",
+    "cat": "Meta"
+  },
+  {
+    "id": "092",
+    "title": "The Screenplay",
+    "cat": "Meta"
+  },
+  {
+    "id": "093",
+    "title": "Choose Your Adventure",
+    "cat": "Meta"
+  },
+  {
+    "id": "094",
+    "title": "The Newspaper",
+    "cat": "Meta"
+  },
+  {
+    "id": "095",
+    "title": "The Tarot Reading",
+    "cat": "Meta"
+  },
+  {
+    "id": "096",
+    "title": "The QR Code",
+    "cat": "Meta"
+  },
+  {
+    "id": "097",
+    "title": "The CAPTCHA",
+    "cat": "Meta"
+  },
+  {
+    "id": "098",
+    "title": "The Blank Page",
+    "cat": "Meta"
+  },
+  {
+    "id": "099",
+    "title": "The Loading Spinner",
+    "cat": "Meta"
+  },
+  {
+    "id": "100",
+    "title": "The Mirror",
+    "cat": "Meta"
+  }
+];
+const CATS = ['All', 'Science', 'Excel Hell', 'Psychology', 'Music', 'Meta'];
 ---
 
-<Base title={SITE.name}>
+<Base title="Claude Lost Its Mind — 100 Visualizations">
   <section class="hero">
     <div class="container">
-      <h1 class="hero__title">
-        <img class="hero__icon" src="/icons/loom.svg" alt="" width="40" height="40" />
-        {SITE.name}
-      </h1>
-      <p class="hero__tagline">{SITE.tagline}</p>
-      <p class="hero__description">{SITE.description}</p>
-
-      <div class="hero__actions">
-        {SITE.nav.map((item) => (
-          <a href={item.href} class="btn btn--secondary">{item.label}</a>
-        ))}
+      <div class="hero__tag">An Interactive Exhibit</div>
+      <h1 class="hero__title">Claude Lost<br>Its Mind</h1>
+      <p class="hero__description">
+        A 6,963-line AI session that designed a brilliant experiment — then spent 3,328 lines saying "Done." over and over. 
+        Here are 100 completely different ways to visualize the exact moment the logic broke.
+      </p>
+      
+      <div class="stats" style="display:flex; gap:32px; margin-top:24px; justify-content:center; text-align:center;">
+        <div class="stat"><span class="stat-val" style="font-size:32px; font-weight:bold;">100</span><br><span style="font-size:12px; color:var(--color-text-muted); text-transform:uppercase;">Visualizations</span></div>
+        <div class="stat"><span class="stat-val" style="font-size:32px; font-weight:bold;">344</span><br><span style="font-size:12px; color:var(--color-text-muted); text-transform:uppercase;">"Done" Count</span></div>
+        <div class="stat"><span class="stat-val" style="font-size:32px; font-weight:bold; color:var(--color-danger);">3,328</span><br><span style="font-size:12px; color:var(--color-text-muted); text-transform:uppercase;">Spiral Lines</span></div>
       </div>
     </div>
   </section>
 
-  <section class="features">
-    <div class="features__rotator" aria-live="polite">
-      <div class="features__item is-active">
-        <img src="/icons/themes.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
-        <h3>10 Built-in Themes</h3>
-        <p>Manuscript, Brutalist, Terminal, Campfire, and more. One line to switch. Dark mode included.</p>
-      </div>
-      <div class="features__item">
-        <img src="/icons/controls.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
-        <h3>Reader Controls</h3>
-        <p>Visitors choose dark mode, font size, content width, and focus mode. Preferences persist.</p>
-      </div>
-      <div class="features__item">
-        <img src="/icons/templates.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
-        <h3>5 Page Templates</h3>
-        <p>Default, landing, guide, tool, and longform. Pick the right layout for every page.</p>
-      </div>
-      <div class="features__item">
-        <img src="/icons/zeroflash.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
-        <h3>Zero-Flash Loading</h3>
-        <p>Themes load before the browser paints. No flicker, no wrong colors, no layout shift.</p>
-      </div>
-      <div class="features__item">
-        <img src="/icons/mobile.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
-        <h3>Mobile Editor</h3>
-        <p>A built-in PWA at /mobile. Draft and publish from your phone — no app store required.</p>
-      </div>
-      <div class="features__item">
-        <img src="/icons/fork.svg" alt="" width="40" height="40" style="margin-bottom:.15rem" />
-        <h3>Fork and Go</h3>
-        <p>Clone, edit site.config.ts, push. Your site is live on Cloudflare Pages in 30 seconds.</p>
-      </div>
-    </div>
-    <div class="features__dots" role="tablist" aria-label="Feature navigation">
-      {[0,1,2,3,4,5].map((i) => (
-        <button
-          class={`features__dot ${i === 0 ? "is-active" : ""}`}
-          role="tab"
-          aria-selected={i === 0 ? "true" : "false"}
-          aria-label={`Feature ${i + 1}`}
-          data-index={i}
-        />
+  <section class="exhibit container" style="margin-top: 64px; padding-bottom: 64px;">
+    <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:24px;">
+      {VIZ_META.map(v => (
+        <a class="card" href={`/viz/${v.id}`} data-cat={v.cat} style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; text-decoration: none; color: inherit; display: block;">
+          <div class="card-visual" style="aspect-ratio: 16/9; background: var(--color-surface); position: relative;">
+            <div class="overlay" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:48px; color:var(--color-text-muted); opacity:0.3;">
+              {v.id}
+            </div>
+          </div>
+          <div class="card-body" style="padding: 16px;">
+            <div style="display:flex; justify-content:space-between; font-size: 11px; margin-bottom: 8px;">
+              <span style="color:var(--color-accent); font-family:var(--font-mono);">VIZ_{v.id}</span>
+              <span style="color:var(--color-text-muted); text-transform:uppercase;">{v.cat}</span>
+            </div>
+            <div style="font-weight:600; font-size:14px;">{v.title}</div>
+          </div>
+        </a>
       ))}
     </div>
   </section>
-
-  <section class="clone-cta">
-    <div class="container">
-      <div class="clone-cta__row">
-        <span class="clone-cta__label">Get Started</span>
-        <div class="clone-cta__box">
-          <code id="clone-url">git clone https://github.com/danrichardson/loomwork.git my-site</code>
-          <button class="clone-cta__copy" aria-label="Copy to clipboard" data-copy>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-        </div>
-        <a href="https://github.com/danrichardson/loomwork" class="clone-cta__link" target="_blank" rel="noopener">
-          View on GitHub →
-        </a>
-      </div>
-    </div>
-  </section>
 </Base>
-
-<style is:global>
-  /* Single-viewport homepage — desktop only */
-  @media (min-width: 768px) {
-    body:has(.hero) {
-      height: 100vh;
-      overflow: hidden;
-    }
-    body:has(.hero) > main {
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
-    body:has(.hero) > .site-footer {
-      margin-block-start: 0;
-      padding-block: var(--space-md);
-      flex-shrink: 0;
-    }
-  }
-  /* Mobile: normal scroll, compact footer */
-  @media (max-width: 767px) {
-    body:has(.hero) > .site-footer {
-      margin-block-start: var(--space-lg);
-      padding-block: var(--space-md);
-    }
-  }
-</style>
-
-<style>
-  .hero {
-    padding: 16px 0 6px;
-    text-align: center;
-  }
-
-  .hero__title {
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
-    margin-block-end: 4px;
-    letter-spacing: -0.025em;
-    position: relative;
-    display: inline-block;
-  }
-
-  .hero__icon {
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-right: 0.3em;
-    opacity: 0.7;
-  }
-
-  .hero__tagline {
-    font-size: var(--text-lg);
-    color: var(--color-accent);
-    font-weight: 600;
-    margin-block-end: 4px;
-  }
-
-  .hero__description {
-    font-size: var(--text-base);
-    color: var(--color-text-muted);
-    max-width: 36rem;
-    margin-inline: auto;
-    margin-block-end: 12px;
-  }
-
-  .hero__actions {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .hero__actions .btn {
-    padding: 0.4rem 0.9rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  /* ── Feature rotator ───────────────────────────────── */
-  .features {
-    padding: 4px 0 8px;
-    text-align: center;
-  }
-
-  .features__rotator {
-    display: grid;
-    max-width: 32rem;
-    margin-inline: auto;
-  }
-
-  .features__item {
-    grid-area: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    pointer-events: none;
-  }
-
-  .features__item.is-active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .features__item.is-exiting {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-
-  .features__icon {
-    color: var(--color-accent);
-    margin-block-end: var(--space-xs);
-    display: block;
-  }
-
-  .features__item h3 {
-    font-family: var(--font-heading);
-    font-size: var(--text-lg);
-    font-weight: 700;
-    margin-block-end: 2px;
-    color: var(--color-text);
-  }
-
-  .features__item p {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    line-height: var(--leading);
-    max-width: 28rem;
-  }
-
-  .features__dots {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-block-start: 6px;
-  }
-
-  .features__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid var(--color-border);
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.3s ease;
-  }
-
-  .features__dot.is-active {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    transform: scale(1.2);
-  }
-
-  .features__dot:hover:not(.is-active) {
-    border-color: var(--color-text-muted);
-  }
-
-  /* ── Clone CTA ─────────────────────────────────────── */
-  .clone-cta {
-    padding: var(--space-sm) 0;
-    text-align: center;
-    margin-block-start: auto;
-  }
-
-  .clone-cta__label {
-    font-family: var(--font-heading);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted);
-  }
-
-  .clone-cta__row {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .clone-cta__box {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    background: #1c1917;
-    color: #f1f5f9;
-    padding: 0.75rem 1rem;
-    border-radius: var(--radius);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
-  .clone-cta__box code {
-    white-space: nowrap;
-    color: #f1f5f9;
-    background: none;
-    padding: 0;
-    border-radius: 0;
-  }
-
-  .clone-cta__copy {
-    flex-shrink: 0;
-    background: none;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: var(--radius);
-    color: #f1f5f9;
-    padding: 4px 6px;
-    cursor: pointer;
-    transition: background var(--transition), border-color var(--transition);
-  }
-
-  .clone-cta__copy:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.3);
-  }
-
-  .clone-cta__copy.copied {
-    color: #4ade80;
-    border-color: #4ade80;
-  }
-
-  .clone-cta__link {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-accent);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .clone-cta__link:hover {
-    text-decoration: underline;
-  }
-
-  /* ── Mobile adjustments ────────────────────────────── */
-  @media (max-width: 767px) {
-    .hero { padding: 12px 0 4px; }
-    .hero__title { font-size: clamp(1.8rem, 8vw, 2.5rem); }
-    .hero__description { font-size: var(--text-sm); margin-block-end: 8px; }
-    .hero__actions .btn { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
-    .features { padding: 4px 0 6px; }
-    .clone-cta { margin-block-start: var(--space-md); }
-    .clone-cta__box { font-size: 0.75rem; padding: 0.5rem 0.75rem; }
-  }
-</style>
-
-<script>
-  const items = document.querySelectorAll('.features__item');
-  const dots = document.querySelectorAll('.features__dot');
-  let current = 0;
-  let timer: ReturnType<typeof setInterval>;
-
-  function show(index: number) {
-    const prev = items[current];
-    const next = items[index];
-
-    // Exit current
-    prev.classList.remove('is-active');
-    prev.classList.add('is-exiting');
-    dots[current].classList.remove('is-active');
-    dots[current].setAttribute('aria-selected', 'false');
-
-    // After exit transition, enter new
-    setTimeout(() => {
-      prev.classList.remove('is-exiting');
-      next.classList.add('is-active');
-      dots[index].classList.add('is-active');
-      dots[index].setAttribute('aria-selected', 'true');
-      current = index;
-    }, 300);
-  }
-
-  function advance() {
-    show((current + 1) % items.length);
-  }
-
-  // Auto-rotate every 4 seconds
-  timer = setInterval(advance, 4000);
-
-  // Click dots to jump
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      if (i === current) return;
-      clearInterval(timer);
-      show(i);
-      timer = setInterval(advance, 4000);
-    });
-  });
-
-  // Pause on hover
-  const rotator = document.querySelector('.features__rotator');
-  rotator?.addEventListener('mouseenter', () => clearInterval(timer));
-  rotator?.addEventListener('mouseleave', () => {
-    timer = setInterval(advance, 4000);
-  });
-
-  // Copy clone URL to clipboard
-  const copyBtn = document.querySelector('[data-copy]');
-  const cloneUrl = document.getElementById('clone-url');
-  copyBtn?.addEventListener('click', async () => {
-    if (!cloneUrl) return;
-    try {
-      await navigator.clipboard.writeText(cloneUrl.textContent || '');
-      copyBtn.classList.add('copied');
-      setTimeout(() => copyBtn.classList.remove('copied'), 2000);
-    } catch {}
-  });
-</script>
