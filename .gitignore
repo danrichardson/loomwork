@@ -55,3 +55,6 @@ coverage/
 
 # random file I can't delete
 nul
+
+# Ticket workflow worktrees
+.worktrees/
