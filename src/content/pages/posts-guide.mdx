@@ -1,0 +1,123 @@
+---
+title: "Posts"
+description: "Date-driven content for blogs, news, and updates. How to create and configure posts in Loomwork."
+section: "reference"
+nav_order: 35
+template: "guide"
+date_created: 2026-04-13
+date_updated: 2026-04-13
+---
+
+import Callout from '../../components/Callout.astro';
+
+Posts are Loomwork's **date-driven content type** for blogs, news, updates, and changelogs. They live in `src/content/posts/` as MDX files and are automatically listed in reverse-chronological order at `/posts/`.
+
+<Callout>
+See the [live posts listing](/posts/) to see posts in action. This page documents how to create and configure them.
+</Callout>
+
+---
+
+## Getting Started
+
+Create a new `.mdx` file in `src/content/posts/` with the required frontmatter fields:
+
+```yaml
+---
+title: "My First Post"
+description: "A short summary for the listing page."
+date: 2026-04-13
+---
+
+Your content goes here.
+```
+
+**Location:** `src/content/posts/{slug}.mdx`
+**URL:** `/posts/{slug}`
+
+---
+
+## Frontmatter Reference
+
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `title` | string | Yes | — | Post title |
+| `description` | string (max 160) | Yes | — | Summary shown on post cards |
+| `date` | date | Yes | — | Publication date, used for sorting |
+| `author` | string | No | `"Dan"` | Author name shown on individual posts |
+| `tags` | string[] | No | `[]` | Category labels shown on cards and posts |
+| `hero_image` | string | No | — | Full-width image above content |
+| `hero_alt` | string | No | `""` | Alt text for the hero image |
+| `draft` | boolean | No | `false` | When true, excluded from listing and routes |
+| `og_image` | string | No | — | Custom Open Graph image for social sharing |
+
+---
+
+## Drafts
+
+Set `draft: true` to exclude a post from the listing page and prevent its individual page from being generated. This is useful for work-in-progress content that isn't ready for readers yet.
+
+```yaml
+---
+title: "Work in Progress"
+description: "This post is not ready yet."
+date: 2026-04-13
+draft: true
+---
+```
+
+<Callout type="tip">
+Drafts are filtered at build time. They won't appear in development either, so toggle `draft: false` when you're ready to publish.
+</Callout>
+
+---
+
+## Reading Time
+
+Reading time is calculated automatically from the post body: word count divided by 230 words per minute, with a minimum of 1 minute. It appears on both post cards in the listing and on individual post pages. No configuration needed.
+
+---
+
+## Tags
+
+Tags are an array of strings. They appear as pills on post cards and on individual post pages. Keep them short and consistent across your posts.
+
+```yaml
+---
+title: "Tagged Post"
+description: "Showing off tags."
+date: 2026-04-13
+tags: ["framework", "astro"]
+---
+```
+
+---
+
+## Hero Images
+
+Optional. Provide `hero_image` with a path and optionally `hero_alt` for accessibility. The image renders as a full-width banner above the post content, the same way hero images work on regular pages.
+
+```yaml
+---
+title: "Post with Hero"
+description: "A post featuring a hero image."
+date: 2026-04-13
+hero_image: "/images/my-hero.jpg"
+hero_alt: "A description of the image"
+---
+```
+
+---
+
+## Quick Reference
+
+| Field | Required | Default | Notes |
+|-------|----------|---------|-------|
+| `title` | Yes | — | Post title |
+| `description` | Yes | — | Max 160 chars |
+| `date` | Yes | — | Controls sort order |
+| `author` | No | `"Dan"` | Shown on post page |
+| `tags` | No | `[]` | Displayed as pills |
+| `hero_image` | No | — | Full-width banner |
+| `draft` | No | `false` | Hides from listing |
+| `og_image` | No | — | Social sharing image |
