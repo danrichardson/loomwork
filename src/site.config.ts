@@ -27,6 +27,7 @@ export const SITE = {
     { label: "Building", href: "/building" },
     { label: "Theming", href: "/theming" },
     { label: "Page Types", href: "/page-types" },
+    { label: "Posts", href: "/posts" },
     { label: "Controls", href: "/reader-controls" },
     { label: "Deploy", href: "/guide" },
     { label: "Progress", href: "/progress" },
