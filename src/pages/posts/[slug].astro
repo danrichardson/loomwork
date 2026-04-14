@@ -34,22 +34,9 @@ const { Content: RenderedContent, headings } = await post.render();
   date_updated={post.data.date}
   headings={headings}
   body={post.body}
+  prevLink={prevPost ? { title: prevPost.title, href: `/posts/${prevPost.slug}/` } : null}
+  nextLink={nextPost ? { title: nextPost.title, href: `/posts/${nextPost.slug}/` } : null}
 >
-  {(prevPost || nextPost) && (
-    <nav class="post-nav post-nav--top" aria-label="Post navigation">
-      {prevPost ? (
-        <a href={`/posts/${prevPost.slug}/`} class="post-nav__link post-nav__link--prev">
-          <span aria-hidden="true">&larr;</span> {prevPost.title}
-        </a>
-      ) : <span />}
-      {nextPost && (
-        <a href={`/posts/${nextPost.slug}/`} class="post-nav__link post-nav__link--next">
-          {nextPost.title} <span aria-hidden="true">&rarr;</span>
-        </a>
-      )}
-    </nav>
-  )}
-
   <div class="post-meta">
     <span class="post-meta__author">By {post.data.author}</span>
     {post.data.tags.length > 0 && (
@@ -63,7 +50,7 @@ const { Content: RenderedContent, headings } = await post.render();
   <RenderedContent />
 
   {(prevPost || nextPost) && (
-    <nav class="post-nav post-nav--bottom" aria-label="Post navigation">
+    <nav class="post-nav" aria-label="Post navigation">
       {prevPost ? (
         <a href={`/posts/${prevPost.slug}/`} class="post-nav__link post-nav__link--prev">
           <span aria-hidden="true">&larr;</span> {prevPost.title}
@@ -118,15 +105,6 @@ const { Content: RenderedContent, headings } = await post.render();
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--space-md, 1rem);
-  }
-
-  .post-nav--top {
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: var(--space-md, 1rem);
-    margin-bottom: var(--space-lg, 1.5rem);
-  }
-
-  .post-nav--bottom {
     border-top: 1px solid var(--color-border);
     padding-top: var(--space-xl, 2rem);
     margin-top: var(--space-xl, 2rem);
