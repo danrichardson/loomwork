@@ -80,11 +80,7 @@ template: "tool"
 
 ---
 
-## Longform ✨
-
-<Callout>
-**New** — The longform template is the newest addition to Loomwork.
-</Callout>
+## Longform
 
 A split-panel layout for deep dives, essays, retrospectives, and serialized content. On desktop, an article index sidebar stays pinned on the left while wide, presentation-style content fills the right. The entire layout is viewport-fitted with internal scroll.
 
@@ -112,6 +108,32 @@ nav_order: 10             # controls ordering in the index
 
 ---
 
+## Posts ✨
+
+<Callout>
+**New** — Posts are the newest addition to Loomwork.
+</Callout>
+
+Posts are a separate content collection for date-driven content: blogs, news, updates, changelogs. Unlike the templates above, posts live in their own directory (`src/content/posts/`) and have their own routing at `/posts/`.
+
+```yaml
+---
+title: "My First Post"
+description: "A short summary for the listing page."
+date: 2026-04-13
+tags: ["welcome"]
+---
+```
+
+**Layout:** Uses the `default` template via `Content.astro`.
+**Listing:** Automatic reverse-chronological listing at `/posts/` with cards showing title, date, reading time, and tags.
+**Routing:** `/posts/{slug}` for individual posts.
+**Drafts:** Set `draft: true` to hide a post from the listing and prevent its page from being generated.
+
+**Example:** [Posts listing](/posts/) · [Full posts documentation](/posts-guide/)
+
+---
+
 ## Quick Reference
 
 | Template | Sidebar | Width | Auto Title | Best For |
@@ -121,6 +143,7 @@ nav_order: 10             # controls ordering in the index
 | `landing` | — | 72rem | ✓ | Marketing, features |
 | `tool` | — | 72rem | ✗ | Interactive tools |
 | `longform` | Article index | 72rem | ✓ | Essays, deep dives |
+| `posts` | — | 52rem | ✓ | Blogs, news, updates |
 
 ## Setting a Template
 
